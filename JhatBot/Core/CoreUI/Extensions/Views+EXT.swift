@@ -17,3 +17,16 @@ extension View {
             .background(.accent, in: .rect(cornerRadius: 16))
     }
 }
+
+extension View {
+    func withTappableBackground(
+        backgroundStyle: some ShapeStyle = Color.black.opacity(0.001),
+        onTap: @escaping () -> Void
+    ) -> some View {
+        self
+            .background(backgroundStyle)
+            .onTapGesture {
+                onTap()
+            }
+    }
+}
