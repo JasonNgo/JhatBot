@@ -9,27 +9,67 @@ import SwiftUI
 
 struct OnboardingCompletedView: View {
 
+    // MARK: - Properties
+
     @Environment(AppState.self) private var appState
+
+    @State private var isLoading = false
+
+    private var selectedColor: Color
+
+    // MARK: - Initializers
+
+    init(selectedColor: Color) {
+        self.selectedColor = selectedColor
+    }
+
+    // MARK: - Body
 
     var body: some View {
         VStack {
-            Text("Onboarding Complete")
-                .frame(maxHeight: .infinity)
+            VStack(alignment: .leading, spacing: 12) {
+                Text("Setup Complete")
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(selectedColor)
+
+                Text("We've set up your profile and you're ready to start chatting.")
+                    .font(.title)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxHeight: .infinity)
 
             Button(action: self.onActionButtonTapped) {
-                Text("Finish")
-                    .withCallToActionStyle()
+                ZStack {
+                    if isLoading {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        Text("Finish")
+                    }
+                }
+                .withCallToActionStyle()
             }
+            .disabled(isLoading)
         }
         .padding()
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     private func onActionButtonTapped() {
-        appState.updateAuthenticationState(true)
+        isLoading = true
+
+        Task {
+            try? await Task.sleep(for: .seconds(2))
+
+            isLoading = false
+            appState.updateAuthenticationState(true)
+        }
     }
 }
 
 #Preview {
-    OnboardingCompletedView()
+    OnboardingCompletedView(selectedColor: .orange)
         .environment(AppState())
 }

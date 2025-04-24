@@ -14,7 +14,7 @@ struct WelcomeView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 8) {
-                AsyncImage(url: nil)
+                ImageLoaderView()
                     .ignoresSafeArea()
 
                 textSection
@@ -40,7 +40,7 @@ struct WelcomeView: View {
     private var ctaSection: some View {
         VStack(spacing: 12) {
             NavigationLink {
-                OnboardingCompletedView()
+                OnboardingIntroView()
             } label: {
                 signUpButton
             }
@@ -75,10 +75,8 @@ struct WelcomeView: View {
     }
 
     private var signUpButton: some View {
-        Button(action: self.onSignUpButtonTapped) {
-            Text("Get Started")
-                .withCallToActionStyle()
-        }
+        Text("Get Started")
+            .withCallToActionStyle()
     }
 
     private var signInButton: some View {
@@ -128,5 +126,8 @@ struct WelcomeView: View {
 }
 
 #Preview {
-    WelcomeView()
+    NavigationStack {
+        WelcomeView()
+    }
+    .environment(AppState())
 }

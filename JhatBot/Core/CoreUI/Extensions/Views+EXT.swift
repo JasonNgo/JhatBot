@@ -20,11 +20,11 @@ extension View {
 
 extension View {
     func withTappableBackground(
-        backgroundStyle: some ShapeStyle = Color.black.opacity(0.001),
+        contentShape: some Shape = .rect,
         onTap: @escaping () -> Void
     ) -> some View {
         self
-            .background(backgroundStyle)
+            .contentShape(contentShape)
             .onTapGesture {
                 onTap()
             }
