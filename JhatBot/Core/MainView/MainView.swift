@@ -9,36 +9,31 @@ import SwiftUI
 
 struct MainView: View {
 
-    @AppStorage("isAuthenticated")
-    var isAuthenticated = false
+    @State private var appState: AppState
+
+    public init(appState: AppState = AppState()) {
+        self.appState = appState
+    }
 
     var body: some View {
         MainViewBuilder(
-            isAuthenticated: isAuthenticated,
+            isAuthenticated: appState.isAuthenticated,
             authenticatedContentView: {
-                ZStack {
-                    Color.blue.ignoresSafeArea()
-                    Text("Authenticated View")
-                }
+                TabBarView()
             },
             unauthenticatedContentView: {
-                ZStack {
-                    Color.red.ignoresSafeArea()
-                    Text("Unauthenticated View")
-                }
+                WelcomeView()
             }
         )
-        .onTapGesture {
-            isAuthenticated.toggle()
-        }
+        .environment(appState)
     }
 
 }
 
 #Preview("MainView - Authenticated") {
-    MainView(isAuthenticated: true)
+    MainView(appState: AppState(isAuthenticated: true))
 }
 
 #Preview("MainView - Unauthenticated") {
-    MainView(isAuthenticated: false)
+    MainView(appState: AppState(isAuthenticated: false))
 }

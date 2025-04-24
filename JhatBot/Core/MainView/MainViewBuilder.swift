@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct MainViewBuilder<ContentView: View>: View {
+struct MainViewBuilder<AuthenticatedView: View, UnauthenticatedView: View>: View {
 
     var isAuthenticated: Bool
 
-    @ViewBuilder var authenticatedContentView: ContentView
-    @ViewBuilder var unauthenticatedContentView: ContentView
+    @ViewBuilder var authenticatedContentView: AuthenticatedView
+    @ViewBuilder var unauthenticatedContentView: UnauthenticatedView
 
     var body: some View {
         ZStack {
