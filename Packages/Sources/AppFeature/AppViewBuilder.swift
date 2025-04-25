@@ -7,14 +7,11 @@
 
 import SwiftUI
 
-struct MainViewBuilder<AuthenticatedView: View, UnauthenticatedView: View>: View {
+public struct AppViewBuilder<AuthenticatedView: View, UnauthenticatedView: View>: View {
 
-    var isAuthenticated: Bool
+    // MARK: - Body
 
-    @ViewBuilder var authenticatedContentView: AuthenticatedView
-    @ViewBuilder var unauthenticatedContentView: UnauthenticatedView
-
-    var body: some View {
+    public var body: some View {
         ZStack {
             if isAuthenticated {
                 authenticatedContentView
@@ -27,7 +24,27 @@ struct MainViewBuilder<AuthenticatedView: View, UnauthenticatedView: View>: View
         .animation(.smooth, value: isAuthenticated)
     }
 
+    // MARK: - Properties
+
+    private(set) var isAuthenticated: Bool
+    @ViewBuilder private var authenticatedContentView: AuthenticatedView
+    @ViewBuilder private var unauthenticatedContentView: UnauthenticatedView
+
+    // MARK: - Initializers
+
+    public init(
+        isAuthenticated: Bool,
+        @ViewBuilder authenticatedContentView: () -> AuthenticatedView,
+        @ViewBuilder unauthenticatedContentView: () -> UnauthenticatedView
+    ) {
+        self.isAuthenticated = isAuthenticated
+        self.authenticatedContentView = authenticatedContentView()
+        self.unauthenticatedContentView = unauthenticatedContentView()
+    }
+
 }
+
+// MARK: - Previews
 
 // swiftlint:disable:next private_over_fileprivate
 fileprivate struct PreviewView: View {
@@ -35,7 +52,7 @@ fileprivate struct PreviewView: View {
     @State private var isAuthenticated = false
 
     var body: some View {
-        MainViewBuilder(
+        AppViewBuilder(
             isAuthenticated: isAuthenticated,
             authenticatedContentView: {
                 ZStack {

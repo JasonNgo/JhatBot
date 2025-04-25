@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import AppFeature
 
 @main
 struct JhatBotApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView()
+            AppView()
         }
     }
 }
