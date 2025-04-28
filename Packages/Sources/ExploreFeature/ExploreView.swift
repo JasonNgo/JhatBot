@@ -54,10 +54,10 @@ public struct ExploreView: View {
             }
             .wrapForListStability()
             .frame(height: 200)
-            .removeListRowFormatting()
         } header: {
             Text("Featured Avatars")
         }
+        .removeListRowFormatting()
     }
 
     private var categorySection: some View {
@@ -79,10 +79,10 @@ public struct ExploreView: View {
             .scrollTargetLayout()
             .scrollTargetBehavior(.viewAligned)
             .wrapForListStability()
-            .removeListRowFormatting()
         } header: {
             Text("Categories")
         }
+        .removeListRowFormatting()
     }
 
     private var popularSection: some View {
@@ -93,11 +93,11 @@ public struct ExploreView: View {
                     subtitle: avatar.characterDescription,
                     imageURL: avatar.profileImageURL
                 )
-                .removeListRowFormatting()
             }
         } header: {
             Text("Popular")
         }
+        .removeListRowFormatting()
     }
 
 }
