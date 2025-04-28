@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct ChatListView: View {
-    var body: some View {
+public struct ChatListView: View {
+    public var body: some View {
         NavigationStack {
             Text("Chats")
                 .navigationTitle("Chats")

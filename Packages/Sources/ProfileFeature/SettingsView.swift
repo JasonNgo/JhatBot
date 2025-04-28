@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
 
-    @Environment(AppState.self) private var appState
+//    @Environment(AppState.self) private var appState
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -32,7 +32,7 @@ struct SettingsView: View {
 
         Task {
             try? await Task.sleep(for: .seconds(1))
-            appState.updateAuthenticationState(false)
+//            appState.updateAuthenticationState(false)
         }
     }
 
@@ -40,5 +40,4 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
-        .environment(AppState())
 }

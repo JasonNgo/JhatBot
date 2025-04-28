@@ -8,18 +8,18 @@
 import SwiftUI
 
 extension View {
-    func withCallToActionStyle() -> some View {
+    public func withCallToActionStyle() -> some View {
         self
             .font(.headline)
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity)
             .frame(height: 55)
-            .background(.accent, in: .rect(cornerRadius: 16))
+            .background(Color.accentColor, in: .rect(cornerRadius: 16))
     }
 }
 
 extension View {
-    func withTappableBackground(
+    public func withTappableBackground(
         contentShape: some Shape = .rect,
         onTap: @escaping () -> Void
     ) -> some View {

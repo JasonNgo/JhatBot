@@ -12,13 +12,13 @@ let package = Package(
         .singleTargetLibrary("AppFeature")
     ],
     dependencies: [
-
+        .package(url: "https://github.com/SDWebImage/SDWebImageSwiftUI", exact: "3.1.3")
     ],
     targets: [
         .target(
             name: "AppFeature",
             dependencies: [
-                "Shared"
+                "AuthenticationFeature"
             ]
         ),
         .testTarget(
@@ -28,9 +28,22 @@ let package = Package(
             ]
         ),
         .target(
+            name: "AuthenticationFeature",
+            dependencies: [
+                "Shared",
+                "OnboardingFeature"
+            ]
+        ),
+        .target(
+            name: "OnboardingFeature",
+            dependencies: [
+                "Shared"
+            ]
+        ),
+        .target(
             name: "Shared",
             dependencies: [
-
+                .product(name: "SDWebImageSwiftUI", package: "SDWebImageSwiftUI")
             ]
         )
     ]

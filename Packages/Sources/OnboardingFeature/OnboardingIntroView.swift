@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct OnboardingIntroView: View {
+public struct OnboardingIntroView: View {
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         VStack {
             VStack(spacing: 24) {
                 calloutLabel
@@ -25,6 +25,10 @@ struct OnboardingIntroView: View {
         .toolbar(.hidden, for: .navigationBar)
     }
 
+    public init() {
+        
+    }
+
     // MARK: - Components
 
     private var calloutLabel: some View {
@@ -33,7 +37,7 @@ struct OnboardingIntroView: View {
             string.font = .title3
 
             if let range = string.range(of: "avatars") {
-                string[range].foregroundColor = .accent
+                string[range].foregroundColor = Color.accentColor
                 string[range].font = .title3.weight(.semibold)
             }
 
@@ -51,7 +55,7 @@ struct OnboardingIntroView: View {
             string.font = .title3
 
             if let range = string.range(of: "real conversations") {
-                string[range].foregroundColor = .accent
+                string[range].foregroundColor = Color.accentColor
                 string[range].font = .title3.weight(.semibold)
             }
 
@@ -73,6 +77,8 @@ struct OnboardingIntroView: View {
     }
 
 }
+
+// MARK: - Previews
 
 #Preview {
     NavigationStack {

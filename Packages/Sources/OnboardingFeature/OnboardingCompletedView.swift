@@ -5,27 +5,14 @@
 //  Created by Jason Ngo on 2025-04-22.
 //
 
+import Shared
 import SwiftUI
 
-struct OnboardingCompletedView: View {
-
-    // MARK: - Properties
-
-    @Environment(AppState.self) private var appState
-
-    @State private var isLoading = false
-
-    private var selectedColor: Color
-
-    // MARK: - Initializers
-
-    init(selectedColor: Color) {
-        self.selectedColor = selectedColor
-    }
+public struct OnboardingCompletedView: View {
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Setup Complete")
@@ -57,6 +44,22 @@ struct OnboardingCompletedView: View {
         .toolbar(.hidden, for: .navigationBar)
     }
 
+    // MARK: - Properties
+
+    @Environment(AppState.self) private var appState
+
+    @State private var isLoading = false
+
+    private var selectedColor: Color
+
+    // MARK: - Initializers
+
+    public init(selectedColor: Color) {
+        self.selectedColor = selectedColor
+    }
+
+    // MARK: - Actions
+
     private func onActionButtonTapped() {
         isLoading = true
 
@@ -67,7 +70,10 @@ struct OnboardingCompletedView: View {
             appState.updateAuthenticationState(true)
         }
     }
+
 }
+
+// MARK: - Previews
 
 #Preview {
     OnboardingCompletedView(selectedColor: .orange)

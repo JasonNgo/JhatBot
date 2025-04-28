@@ -5,13 +5,15 @@
 //  Created by Jason Ngo on 2025-04-22.
 //
 
+import Shared
+import OnboardingFeature
 import SwiftUI
 
-struct WelcomeView: View {
+public struct WelcomeView: View {
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         NavigationStack {
             VStack(spacing: 8) {
                 ImageLoaderView()
@@ -26,6 +28,14 @@ struct WelcomeView: View {
                 policySection
             }
         }
+    }
+
+    // MARK: - Properties
+
+    // MARK: - Initializers
+
+    public init() {
+        
     }
 
     // MARK: - Sections
@@ -53,7 +63,7 @@ struct WelcomeView: View {
         HStack(alignment: .center) {
             termsOfServiceButton
             Circle()
-                .fill(.accent)
+                .fill(Color.accentColor)
                 .frame(width: 4, height: 4)
             privacyPolicyButton
         }
@@ -94,14 +104,14 @@ struct WelcomeView: View {
     private var termsOfServiceButton: some View {
         Button(action: self.onTermsOfServiceButtonTapped) {
             Text("Terms of Service")
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
         }
     }
 
     private var privacyPolicyButton: some View {
         Button(action: self.onPrivacyPolicyButtonTapped) {
             Text("Privacy Policy")
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
         }
     }
 
@@ -124,6 +134,8 @@ struct WelcomeView: View {
     }
 
 }
+
+// MARK: - Previews
 
 #Preview {
     NavigationStack {

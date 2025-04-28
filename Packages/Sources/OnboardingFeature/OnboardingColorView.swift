@@ -7,18 +7,11 @@
 
 import SwiftUI
 
-struct OnboardingColorView: View {
-    // Predefined set of colors
-    let colors: [Color] = [
-        .red, .green, .blue,
-        .orange, .purple, .yellow,
-        .pink, .teal, .gray
-    ]
+public struct OnboardingColorView: View {
 
-    @State private var selectedColor: Color?
-    private var isActionButtonEnabled: Bool { selectedColor != nil }
+    // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         ScrollView {
             colorGrid
                 .padding(.horizontal, 24)
@@ -34,6 +27,17 @@ struct OnboardingColorView: View {
         )
         .toolbar(.hidden, for: .navigationBar)
     }
+
+    // MARK: - Properties
+
+    private let colors: [Color] = [
+        .red, .green, .blue,
+        .orange, .purple, .yellow,
+        .pink, .teal, .gray
+    ]
+
+    @State private var selectedColor: Color?
+    private var isActionButtonEnabled: Bool { selectedColor != nil }
 
     // MARK: - Components
 
@@ -77,7 +81,7 @@ struct OnboardingColorView: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 55)
                     .background(
-                        isActionButtonEnabled ? .accent : Color.gray,
+                        isActionButtonEnabled ? Color.accentColor : Color.gray,
                         in: .rect(cornerRadius: 16)
                     )
             }
@@ -86,11 +90,14 @@ struct OnboardingColorView: View {
         .padding(16)
         .background(.background)
     }
+
 }
+
+// MARK: - Previews
 
 #Preview {
     NavigationStack {
         OnboardingColorView()
     }
-    .environment(AppState())
+//    .environment(AppState())
 }
