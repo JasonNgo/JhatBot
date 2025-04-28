@@ -9,37 +9,37 @@ import SwiftUI
 
 public struct AppViewBuilder<AuthenticatedView: View, UnauthenticatedView: View>: View {
 
-    // MARK: - Body
-
-    public var body: some View {
-        ZStack {
-            if isAuthenticated {
-                authenticatedContentView
-                    .transition(.move(edge: .trailing))
-            } else {
-                unauthenticatedContentView
-                    .transition(.move(edge: .leading))
-            }
-        }
-        .animation(.smooth, value: isAuthenticated)
-    }
-
     // MARK: - Properties
 
     private(set) var isAuthenticated: Bool
-    @ViewBuilder private var authenticatedContentView: AuthenticatedView
-    @ViewBuilder private var unauthenticatedContentView: UnauthenticatedView
+    private var authenticatedContentView: () -> AuthenticatedView
+    private var unauthenticatedContentView: () -> UnauthenticatedView
 
     // MARK: - Initializers
 
     public init(
         isAuthenticated: Bool,
-        @ViewBuilder authenticatedContentView: () -> AuthenticatedView,
-        @ViewBuilder unauthenticatedContentView: () -> UnauthenticatedView
+        @ViewBuilder authenticatedContentView: @escaping () -> AuthenticatedView,
+        @ViewBuilder unauthenticatedContentView: @escaping () -> UnauthenticatedView
     ) {
         self.isAuthenticated = isAuthenticated
-        self.authenticatedContentView = authenticatedContentView()
-        self.unauthenticatedContentView = unauthenticatedContentView()
+        self.authenticatedContentView = authenticatedContentView
+        self.unauthenticatedContentView = unauthenticatedContentView
+    }
+
+    // MARK: - Body
+
+    public var body: some View {
+        ZStack {
+            if isAuthenticated {
+                authenticatedContentView()
+                    .transition(.move(edge: .trailing))
+            } else {
+                unauthenticatedContentView()
+                    .transition(.move(edge: .leading))
+            }
+        }
+        .animation(.smooth, value: isAuthenticated)
     }
 
 }

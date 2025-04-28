@@ -5,6 +5,7 @@
 //  Created by Jason Ngo on 2025-04-28.
 //
 
+import Shared
 import Foundation
 
 public struct AvatarModel {
@@ -43,7 +44,7 @@ public struct AvatarModel {
 }
 
 extension AvatarModel {
-    public static let mocks: [AvatarModel] {
+    public static var mocks: [AvatarModel] {
         [
             AvatarModel(
                 avatarID: UUID().uuidString,
@@ -88,23 +89,23 @@ extension AvatarModel {
         ]
     }
 
-    public static let mock: AvatarModel { mocks[0] }
+    public static var mock: AvatarModel { mocks[0] }
 }
 
 public enum CharacterOption: String {
     case man, woman, alien, dog, cat
 
-    public static let `default`: Self { .man }
+    public static var `default`: Self { .man }
 }
 
 public enum CharacterAction: String {
     case smiling, sitting, eating, drinking, walking, shopping, studying, working, relaxing, fighting, crying
 
-    public static let `default`: Self { .smiling }
+    public static var `default`: Self { .smiling }
 }
 
 public enum CharacterLocation: String {
     case park, mall, museum, city, desert, forest, space
 
-    public static let `default`: Self { .park }
+    public static var `default`: Self { .park }
 }

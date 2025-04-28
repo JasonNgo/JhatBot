@@ -18,7 +18,8 @@ let package = Package(
         .target(
             name: "AppFeature",
             dependencies: [
-                "AuthenticationFeature"
+                "AuthenticationFeature",
+                "ExploreFeature"
             ]
         ),
         .testTarget(
@@ -41,9 +42,16 @@ let package = Package(
             ]
         ),
         .target(
+            name: "ExploreFeature",
+            dependencies: [
+                "Shared",
+                "AvatarModule"
+            ]
+        ),
+        .target(
             name: "AvatarModule",
             dependencies: [
-
+                "Shared"
             ]
         ),
         .target(

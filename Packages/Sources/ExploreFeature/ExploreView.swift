@@ -25,7 +25,13 @@ public struct ExploreView: View {
 
     // MARK: - Properties
 
-    let avatar: AvatarModel.mock
+    let avatar: AvatarModel
+
+    // MARK: - Initializers
+
+    public init(avatar: AvatarModel = .mock) {
+        self.avatar = avatar
+    }
 
 }
 

@@ -5,16 +5,17 @@
 //  Created by Jason Ngo on 2025-04-22.
 //
 
+import ExploreFeature
 import SwiftUI
 
 public struct TabBarView: View {
 
     public var body: some View {
         TabView {
-//            ExploreView()
-//                .tabItem {
-//                    Label("Explore", systemImage: "eyes")
-//                }
+            ExploreView()
+                .tabItem {
+                    Label("Explore", systemImage: "eyes")
+                }
 //
 //            ChatListView()
 //                .tabItem {
