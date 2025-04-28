@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ImageTextView: View {
+public struct ImageTextView: View {
 
     private(set) var title: String?
     private(set) var subtitle: String?
@@ -27,7 +27,7 @@ struct ImageTextView: View {
         self.imageURL = imageURL
     }
 
-    var body: some View {
+    public var body: some View {
         imageSection(imageURL: imageURL)
             .overlay(alignment: .bottomLeading) {
                 if textNotEmpty {

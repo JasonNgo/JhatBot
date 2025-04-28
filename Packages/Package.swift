@@ -41,6 +41,12 @@ let package = Package(
             ]
         ),
         .target(
+            name: "AvatarModule",
+            dependencies: [
+
+            ]
+        ),
+        .target(
             name: "Shared",
             dependencies: [
                 .product(name: "SDWebImageSwiftUI", package: "SDWebImageSwiftUI")
