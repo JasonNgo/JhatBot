@@ -15,15 +15,18 @@ public struct ExploreView: View {
 
     @State private var featureAvatars: [AvatarModel]
     @State private var categories: [CharacterOption]
+    @State private var popularAvatars: [AvatarModel]
 
     // MARK: - Initializers
 
     public init(
         featuredAvatars: [AvatarModel],
-        categories: [CharacterOption]
+        categories: [CharacterOption],
+        popularAvatars: [AvatarModel]
     ) {
         self.featureAvatars = featuredAvatars
         self.categories = categories
+        self.popularAvatars = popularAvatars
     }
 
     // MARK: - Body
@@ -33,6 +36,7 @@ public struct ExploreView: View {
             List {
                 featuredAvatarsSection
                 categorySection
+                popularSection
             }
         }
     }
@@ -81,6 +85,21 @@ public struct ExploreView: View {
         }
     }
 
+    private var popularSection: some View {
+        Section {
+            ForEach(popularAvatars, id: \.self) { avatar in
+                BasicListCellView(
+                    title: avatar.name,
+                    subtitle: avatar.characterDescription,
+                    imageURL: avatar.profileImageURL
+                )
+                .removeListRowFormatting()
+            }
+        } header: {
+            Text("Popular")
+        }
+    }
+
 }
 
 // MARK: - Previews
@@ -88,6 +107,7 @@ public struct ExploreView: View {
 #Preview {
     ExploreView(
         featuredAvatars: AvatarModel.mocks,
-        categories: CharacterOption.allCases
+        categories: CharacterOption.allCases,
+        popularAvatars: AvatarModel.mocks
     )
 }

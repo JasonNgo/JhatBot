@@ -29,6 +29,7 @@ public struct AvatarDescriptionBuilder {
     }
 
     public var characterDescription: String {
-        "A \(characterOption.rawValue) that is \(characterAction.rawValue) in the \(characterLocation.rawValue)."
+        let prefix = characterOption.rawValue.first?.isVowel ?? false ? "An" : "A"
+        return "\(prefix) \(characterOption.rawValue) that is \(characterAction.rawValue) in the \(characterLocation.rawValue)."
     }
 }
