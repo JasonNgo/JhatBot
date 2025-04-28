@@ -11,30 +11,83 @@ import SwiftUI
 
 public struct ExploreView: View {
 
+    // MARK: - Properties
+
+    @State private var featureAvatars: [AvatarModel]
+    @State private var categories: [CharacterOption]
+
+    // MARK: - Initializers
+
+    public init(
+        featuredAvatars: [AvatarModel],
+        categories: [CharacterOption]
+    ) {
+        self.featureAvatars = featuredAvatars
+        self.categories = categories
+    }
+
     // MARK: - Body
 
     public var body: some View {
         NavigationStack {
-            ImageTextView(
-                title: avatar.name,
-                subtitle: avatar.characterDescription,
-                imageURL: avatar.profileImageURL
-            )
+            List {
+                featuredAvatarsSection
+                categorySection
+            }
         }
     }
 
-    // MARK: - Properties
+    // MARK: - Components
 
-    let avatar: AvatarModel
+    private var featuredAvatarsSection: some View {
+        Section {
+            CarouselView(items: featureAvatars) { avatar in
+                ImageTextView(
+                    title: avatar.name,
+                    subtitle: avatar.characterDescription,
+                    imageURL: avatar.profileImageURL
+                )
+            }
+            .wrapForListStability()
+            .frame(height: 200)
+            .removeListRowFormatting()
+        } header: {
+            Text("Featured Avatars")
+        }
+    }
 
-    // MARK: - Initializers
-
-    public init(avatar: AvatarModel = .mock) {
-        self.avatar = avatar
+    private var categorySection: some View {
+        Section {
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: 12) {
+                    ForEach(categories, id: \.self) { category in
+                        ImageTextView(
+                            title: category.rawValue.capitalized,
+                            subtitle: nil,
+                            imageURL: nil
+                        )
+                        .aspectRatio(1.0, contentMode: .fill)
+                    }
+                }
+            }
+            .frame(height: 140)
+            .scrollIndicators(.hidden)
+            .scrollTargetLayout()
+            .scrollTargetBehavior(.viewAligned)
+            .wrapForListStability()
+            .removeListRowFormatting()
+        } header: {
+            Text("Categories")
+        }
     }
 
 }
 
+// MARK: - Previews
+
 #Preview {
-    ExploreView()
+    ExploreView(
+        featuredAvatars: AvatarModel.mocks,
+        categories: CharacterOption.allCases
+    )
 }

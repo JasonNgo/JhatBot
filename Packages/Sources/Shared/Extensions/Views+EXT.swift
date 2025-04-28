@@ -16,6 +16,17 @@ extension View {
             .frame(height: 55)
             .background(Color.accentColor, in: .rect(cornerRadius: 16))
     }
+
+    public func removeListRowFormatting() -> some View {
+        self
+            .listRowInsets(EdgeInsets.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .listRowBackground(Color.clear)
+    }
+
+    /// Used to fix glitchy behaviour when scrolling items in a list
+    public func wrapForListStability() -> some View {
+        ZStack { self }
+    }
 }
 
 extension View {

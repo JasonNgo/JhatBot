@@ -6,13 +6,14 @@
 //
 
 import ExploreFeature
+import AvatarModule
 import SwiftUI
 
 public struct TabBarView: View {
 
     public var body: some View {
         TabView {
-            ExploreView()
+            ExploreView(featuredAvatars: AvatarModel.mocks, categories: CharacterOption.allCases)
                 .tabItem {
                     Label("Explore", systemImage: "eyes")
                 }

@@ -8,7 +8,7 @@
 import Shared
 import Foundation
 
-public struct AvatarModel {
+public struct AvatarModel: Hashable {
     public let avatarID: String
     public let name: String?
     public let characterOption: CharacterOption?
@@ -92,7 +92,7 @@ extension AvatarModel {
     public static var mock: AvatarModel { mocks[0] }
 }
 
-public enum CharacterOption: String {
+public enum CharacterOption: String, CaseIterable, Hashable {
     case man, woman, alien, dog, cat
 
     public static var `default`: Self { .man }
