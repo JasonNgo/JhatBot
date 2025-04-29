@@ -20,7 +20,8 @@ let package = Package(
             dependencies: [
                 "AuthenticationFeature",
                 "ExploreFeature",
-                "ChatFeature"
+                "ChatFeature",
+                "ProfileFeature"
             ]
         ),
         .testTarget(
@@ -57,6 +58,12 @@ let package = Package(
         ),
         .target(
             name: "ChatFeature",
+            dependencies: [
+                "Shared"
+            ]
+        ),
+        .target(
+            name: "ProfileFeature",
             dependencies: [
                 "Shared"
             ]

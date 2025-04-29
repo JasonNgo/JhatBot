@@ -8,6 +8,7 @@
 import ExploreFeature
 import AvatarModule
 import ChatFeature
+import ProfileFeature
 
 import SwiftUI
 
@@ -24,11 +25,11 @@ public struct TabBarView: View {
                 .tabItem {
                     Label("Chats", systemImage: "bubble.left.and.bubble.right.fill")
                 }
-//
-//            ProfileView()
-//                .tabItem {
-//                    Label("Profile", systemImage: "person.fill")
-//                }
+
+            ProfileView()
+                .tabItem {
+                    Label("Profile", systemImage: "person.fill")
+                }
         }
     }
 

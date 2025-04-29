@@ -26,6 +26,21 @@ public struct UserModel {
     }
 }
 
+#if canImport(SwiftUI)
+import SwiftUI
+
+public extension UserModel {
+    var profileColorCalculated: Color {
+        guard let profileColorHex else {
+            return Color.accentColor
+        }
+
+        return Color(hex: profileColorHex)
+    }
+}
+
+#endif
+
 // MARK: - Mocks
 
 public extension UserModel {
