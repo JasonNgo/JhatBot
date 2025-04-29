@@ -7,6 +7,8 @@
 
 import ExploreFeature
 import AvatarModule
+import ChatFeature
+
 import SwiftUI
 
 public struct TabBarView: View {
@@ -17,11 +19,11 @@ public struct TabBarView: View {
                 .tabItem {
                     Label("Explore", systemImage: "eyes")
                 }
-//
-//            ChatListView()
-//                .tabItem {
-//                    Label("Chats", systemImage: "bubble.left.and.bubble.right.fill")
-//                }
+
+            ChatListView(chats: ChatModel.mocks)
+                .tabItem {
+                    Label("Chats", systemImage: "bubble.left.and.bubble.right.fill")
+                }
 //
 //            ProfileView()
 //                .tabItem {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ChatMessageModel {
+public struct ChatMessageModel: Hashable, Sendable {
     public let id: String
     public let chatId: String
     public let authorId: String?
@@ -29,6 +29,10 @@ public struct ChatMessageModel {
         self.content = content
         self.seenByIds = seenByIds
         self.dateCreated = dateCreated
+    }
+
+    public func isSeenBy(_ userId: String) -> Bool {
+        seenByIds.contains(userId)
     }
 }
 

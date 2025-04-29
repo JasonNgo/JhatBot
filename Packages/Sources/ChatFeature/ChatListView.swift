@@ -8,14 +8,43 @@
 import SwiftUI
 
 public struct ChatListView: View {
+
+    // MARK: - Properties
+
+    @State private var chats: [ChatModel]
+
+    // MARK: - Initializers
+
+    public init(chats: [ChatModel]) {
+        self.chats = chats
+    }
+
+    // MARK: - Body
+
     public var body: some View {
         NavigationStack {
-            Text("Chats")
-                .navigationTitle("Chats")
+            List {
+                ForEach(chats, id: \.self) { chat in
+                    ChatRowCellViewBuilder(
+                        currentUserId: nil,
+                        chat: chat,
+                        getAvatar: {
+                            return .mock
+                        },
+                        getLastMessage: {
+                            return .mock
+                        }
+                    )
+                    .removeListRowFormatting()
+                }
+            }
+            .navigationTitle("Chats")
         }
     }
 }
 
+// MARK: - Previews
+
 #Preview {
-    ChatListView()
+    ChatListView(chats: ChatModel.mocks)
 }

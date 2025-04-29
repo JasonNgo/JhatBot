@@ -8,7 +8,7 @@
 import Shared
 import Foundation
 
-public struct AvatarModel: Hashable {
+public struct AvatarModel: Hashable, Sendable {
     public let avatarID: String
     public let name: String?
     public let characterOption: CharacterOption?
@@ -92,19 +92,19 @@ extension AvatarModel {
     public static var mock: AvatarModel { mocks[0] }
 }
 
-public enum CharacterOption: String, CaseIterable, Hashable {
+public enum CharacterOption: String, CaseIterable, Hashable, Sendable {
     case man, woman, alien, dog, cat
 
     public static var `default`: Self { .man }
 }
 
-public enum CharacterAction: String {
+public enum CharacterAction: String, Sendable {
     case smiling, sitting, eating, drinking, walking, shopping, studying, working, relaxing, fighting, crying
 
     public static var `default`: Self { .smiling }
 }
 
-public enum CharacterLocation: String {
+public enum CharacterLocation: String, Sendable {
     case park, mall, museum, city, desert, forest, space
 
     public static var `default`: Self { .park }
