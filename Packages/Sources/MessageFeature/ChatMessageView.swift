@@ -5,6 +5,7 @@
 //  Created by Jason Ngo on 2025-05-05.
 //
 
+import Shared
 import SwiftUI
 
 public struct ChatMessageView: View {

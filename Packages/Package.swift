@@ -48,7 +48,8 @@ let package = Package(
             name: "ExploreFeature",
             dependencies: [
                 "Shared",
-                "AvatarModule"
+                "AvatarModule",
+                "MessageFeature"
             ]
         ),
         .target(
@@ -88,6 +89,14 @@ let package = Package(
             dependencies: [
                 "Shared",
                 "AvatarModule"
+            ]
+        ),
+        .target(
+            name: "MessageFeature",
+            dependencies: [
+                "Shared",
+                "ChatFeature",
+                "ProfileFeature"
             ]
         )
     ]

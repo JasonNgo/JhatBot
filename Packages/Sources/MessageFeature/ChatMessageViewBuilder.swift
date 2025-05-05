@@ -5,6 +5,8 @@
 //  Created by Jason Ngo on 2025-05-05.
 //
 
+import Shared
+import ChatFeature
 import SwiftUI
 
 public struct ChatMessageViewBuilder: View {
@@ -49,5 +51,5 @@ public struct ChatMessageViewBuilder: View {
 // MARK: - Previews
 
 #Preview {
-    ChatMessageViewBuilder()
+//    ChatMessageViewBuilder()
 }

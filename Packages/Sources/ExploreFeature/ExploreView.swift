@@ -7,6 +7,7 @@
 
 import Shared
 import AvatarModule
+import MessageFeature
 import SwiftUI
 
 public struct ExploreView: View {
