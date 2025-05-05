@@ -34,7 +34,8 @@ let package = Package(
             name: "AuthenticationFeature",
             dependencies: [
                 "Shared",
-                "OnboardingFeature"
+                "OnboardingFeature",
+                "RegistrationFeature"
             ]
         ),
         .target(
@@ -59,19 +60,34 @@ let package = Package(
         .target(
             name: "ChatFeature",
             dependencies: [
-                "Shared"
+                "Shared",
+                "AvatarModule"
             ]
         ),
         .target(
             name: "ProfileFeature",
             dependencies: [
-                "Shared"
+                "Shared",
+                "AvatarModule",
+                "RegistrationFeature",
+                "CreateAvatarFeature"
             ]
         ),
         .target(
             name: "Shared",
             dependencies: [
                 .product(name: "SDWebImageSwiftUI", package: "SDWebImageSwiftUI")
+            ]
+        ),
+        .target(
+            name: "RegistrationFeature",
+            dependencies: []
+        ),
+        .target(
+            name: "CreateAvatarFeature",
+            dependencies: [
+                "Shared",
+                "AvatarModule"
             ]
         )
     ]

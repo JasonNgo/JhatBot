@@ -7,9 +7,20 @@
 
 import Shared
 import OnboardingFeature
+import RegistrationFeature
 import SwiftUI
 
 public struct WelcomeView: View {
+
+    // MARK: - Properties
+
+    @State private var showRegistrationView = false
+
+    // MARK: - Initializers
+
+    public init() {
+        
+    }
 
     // MARK: - Body
 
@@ -28,14 +39,6 @@ public struct WelcomeView: View {
                 policySection
             }
         }
-    }
-
-    // MARK: - Properties
-
-    // MARK: - Initializers
-
-    public init() {
-        
     }
 
     // MARK: - Sections
@@ -96,7 +99,7 @@ public struct WelcomeView: View {
                 .foregroundStyle(.black)
                 .padding(8)
                 .withTappableBackground {
-
+                    showRegistrationView = true
                 }
         }
     }

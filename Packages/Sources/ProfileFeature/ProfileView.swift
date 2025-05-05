@@ -7,6 +7,7 @@
 
 import Shared
 import AvatarModule
+import CreateAvatarFeature
 import SwiftUI
 
 public struct ProfileView: View {
@@ -44,7 +45,7 @@ public struct ProfileView: View {
                 SettingsView()
             }
             .fullScreenCover(isPresented: $showAddAvatar) {
-                Text("Add Avatar")
+                CreateAvatarView()
             }
             .task {
                 await loadData()

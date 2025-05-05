@@ -35,7 +35,6 @@ public struct ChatListView: View {
                             return .mock
                         }
                     )
-                    .removeListRowFormatting()
                 }
             }
             .navigationTitle("Chats")
