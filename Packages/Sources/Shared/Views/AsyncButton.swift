@@ -59,6 +59,8 @@ public struct AsyncButton<Content: View, ProgressContent: View, Trigger: Equatab
     }
 }
 
+// MARK: - Previews
+
 #Preview {
     AsyncButton {
         try? await Task.sleep(for: .seconds(2))

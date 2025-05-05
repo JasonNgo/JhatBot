@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ChatMessageModel: Hashable, Sendable {
+public struct ChatMessageModel: Hashable, Identifiable, Sendable {
     public let id: String
     public let chatId: String
     public let authorId: String?
@@ -38,7 +38,7 @@ public struct ChatMessageModel: Hashable, Sendable {
 
 // MARK: - Mocks
 
-extension ChatMessageModel {
+public extension ChatMessageModel {
     static var mock: ChatMessageModel { mocks[0] }
 
     static var mocks: [ChatMessageModel] {
