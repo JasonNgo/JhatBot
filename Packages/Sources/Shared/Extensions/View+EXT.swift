@@ -41,3 +41,16 @@ extension View {
             }
     }
 }
+
+extension View {
+
+    @ViewBuilder
+    public func ifSatisfiesCondition(_ condition: Bool, transform: (Self) -> some View) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
+
+}

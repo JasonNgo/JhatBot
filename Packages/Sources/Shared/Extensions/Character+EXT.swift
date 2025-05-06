@@ -8,9 +8,11 @@
 import Foundation
 
 extension Character {
+
     public var isVowel: Bool {
         let vowels: [Character] = ["A", "a", "E", "e", "I", "i", "O", "o", "U", "u"]
 
         return vowels.contains(self)
     }
+
 }

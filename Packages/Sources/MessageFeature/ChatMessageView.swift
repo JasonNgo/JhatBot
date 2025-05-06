@@ -17,6 +17,7 @@ public struct ChatMessageView: View {
     public private(set) var backgroundColor: Color
     public private(set) var showImage: Bool
     public private(set) var imageName: String?
+    public let onImageTapped: (() -> Void)?
 
     private let offset: CGFloat = 12
 
@@ -27,13 +28,15 @@ public struct ChatMessageView: View {
         textColor: Color = .primary,
         backgroundColor: Color = Color(uiColor: .systemGray5),
         showImage: Bool = false,
-        imageName: String? = nil
+        imageName: String? = nil,
+        onImageTapped: (() -> Void)? = nil
     ) {
         self.text = text
         self.textColor = textColor
         self.backgroundColor = backgroundColor
         self.showImage = showImage
         self.imageName = imageName
+        self.onImageTapped = onImageTapped
     }
 
     // MARK: - Body
@@ -43,6 +46,9 @@ public struct ChatMessageView: View {
             ZStack {
                 if let imageName {
                     ImageLoaderView(urlString: imageName)
+                        .anyButton {
+                            onImageTapped?()
+                        }
                 } else {
                     Rectangle()
                         .fill(Color.secondary)
@@ -50,7 +56,7 @@ public struct ChatMessageView: View {
             }
             .frame(width: 45, height: 45)
             .clipShape(Circle())
-            .offset(y: offset)
+            .offset(y: offset / 2)
 
             Text(text)
                 .font(.body)
@@ -63,4 +69,8 @@ public struct ChatMessageView: View {
         .padding(.bottom, offset)
     }
 
+}
+
+#Preview {
+    ChatMessageView(text: "Hello")
 }

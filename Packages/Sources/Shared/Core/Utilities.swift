@@ -318,6 +318,7 @@ public struct Utilities {
         guard let component = Bundle.main.appStoreReceiptURL?.lastPathComponent else {
             return false
         }
+
         return component == "sandboxReceipt" || component == "CoreSimulator"
     }
 

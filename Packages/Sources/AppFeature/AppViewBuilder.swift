@@ -12,19 +12,19 @@ public struct AppViewBuilder<AuthenticatedView: View, UnauthenticatedView: View>
     // MARK: - Properties
 
     private(set) var isAuthenticated: Bool
-    private var authenticatedContentView: () -> AuthenticatedView
-    private var unauthenticatedContentView: () -> UnauthenticatedView
+    private var authenticatedContentView: AuthenticatedView
+    private var unauthenticatedContentView: UnauthenticatedView
 
     // MARK: - Initializers
 
     public init(
         isAuthenticated: Bool,
-        @ViewBuilder authenticatedContentView: @escaping () -> AuthenticatedView,
-        @ViewBuilder unauthenticatedContentView: @escaping () -> UnauthenticatedView
+        @ViewBuilder authenticatedContentView: () -> AuthenticatedView,
+        @ViewBuilder unauthenticatedContentView: () -> UnauthenticatedView
     ) {
         self.isAuthenticated = isAuthenticated
-        self.authenticatedContentView = authenticatedContentView
-        self.unauthenticatedContentView = unauthenticatedContentView
+        self.authenticatedContentView = authenticatedContentView()
+        self.unauthenticatedContentView = unauthenticatedContentView()
     }
 
     // MARK: - Body
@@ -32,10 +32,10 @@ public struct AppViewBuilder<AuthenticatedView: View, UnauthenticatedView: View>
     public var body: some View {
         ZStack {
             if isAuthenticated {
-                authenticatedContentView()
+                authenticatedContentView
                     .transition(.move(edge: .trailing))
             } else {
-                unauthenticatedContentView()
+                unauthenticatedContentView
                     .transition(.move(edge: .leading))
             }
         }

@@ -16,6 +16,7 @@ public struct ChatMessageViewBuilder: View {
     public private(set) var message: ChatMessageModel = .mock
     public private(set) var isCurrentUser: Bool = false
     public private(set) var imageName: String?
+    public let onImageTapped: (() -> Void)?
 
     private let padding: CGFloat = 75
 
@@ -24,11 +25,13 @@ public struct ChatMessageViewBuilder: View {
     public init(
         message: ChatMessageModel,
         isCurrentUser: Bool,
-        imageName: String? = nil
+        imageName: String? = nil,
+        onImageTapped: (() -> Void)?
     ) {
         self.message = message
         self.isCurrentUser = isCurrentUser
         self.imageName = imageName
+        self.onImageTapped = onImageTapped
     }
 
     // MARK: - Body
@@ -39,7 +42,8 @@ public struct ChatMessageViewBuilder: View {
             textColor: isCurrentUser ? Color.white : Color.primary,
             backgroundColor: isCurrentUser ? Color.accentColor : Color(uiColor: .systemGray5),
             showImage: !isCurrentUser,
-            imageName: imageName
+            imageName: imageName,
+            onImageTapped: onImageTapped
         )
         .frame(maxWidth: .infinity, alignment: isCurrentUser ? .trailing : .leading)
         .padding(.leading, isCurrentUser ? padding : 0)

@@ -49,7 +49,7 @@ public struct CarouselView<Item, ContentItem>: View where Item: Hashable, Conten
 
     // MARK: - Properties
 
-    public private(set) var scrollIndicatorVisibility: ScrollIndicatorVisibility = .hidden
+    public let scrollIndicatorVisibility: ScrollIndicatorVisibility
 
     private var items: [Item]
     private var contentView: (Item) -> ContentItem

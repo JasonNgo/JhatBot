@@ -10,15 +10,18 @@ import SDWebImageSwiftUI
 
 public struct ImageLoaderView: View {
 
-    public private(set) var urlString: String
-    public private(set) var resizingMode: ContentMode
+    public let urlString: String
+    public let resizingMode: ContentMode
+    public let forceTransitionAnimation: Bool
 
     public init(
         urlString: String = "https://picsum.photos/600/600",
-        resizingMode: ContentMode = .fill
+        resizingMode: ContentMode = .fill,
+        forceTransitionAnimation: Bool = false
     ) {
         self.urlString = urlString
         self.resizingMode = resizingMode
+        self.forceTransitionAnimation = forceTransitionAnimation
     }
 
     public var body: some View {
@@ -31,6 +34,10 @@ public struct ImageLoaderView: View {
                     .aspectRatio(contentMode: resizingMode)
             )
             .clipped()
+            .ifSatisfiesCondition(forceTransitionAnimation) { content in
+                content
+                    .drawingGroup()
+            }
     }
 }
 

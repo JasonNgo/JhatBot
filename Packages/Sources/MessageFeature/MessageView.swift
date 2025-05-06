@@ -18,10 +18,13 @@ public struct MessageView: View {
     @State private var messages: [ChatMessageModel] = ChatMessageModel.mocks
     @State private var avatar: AvatarModel? = .mock
     @State private var currentUser: UserModel? = .mock
-    @State private var text: String = ""
 
-    @State private var showChatSettings: Bool = false
+    @State private var text: String = ""
     @State private var scrollPosition: String?
+
+    @State private var showAlert: AppAlert?
+    @State private var showChatSettings: AppAlert?
+    @State private var showProfileModal: Bool = false
 
     // MARK: - Initializers
 
@@ -47,12 +50,20 @@ public struct MessageView: View {
                     }
             }
         }
-        .confirmationDialog("What would you like to do?", isPresented: $showChatSettings) {
-            Button("Report User / Chat", role: .destructive) {
-
-            }
-            Button("Delete Chat", role: .destructive) {
-
+        .showCustomAlert(type: .confirmationDialog, alert: $showChatSettings)
+        .showModal($showProfileModal) {
+            if let avatar {
+                ProfileImageModalView(
+                    imageName: avatar.profileImageURL,
+                    title: avatar.name,
+                    subtitle: avatar.characterOption?.rawValue.capitalized,
+                    headline: avatar.characterDescription,
+                    onCloseButtonTapped: {
+                        showProfileModal = false
+                    }
+                )
+                .padding(40)
+                .transition(.slide)
             }
         }
     }
@@ -67,7 +78,10 @@ public struct MessageView: View {
                     ChatMessageViewBuilder(
                         message: message,
                         isCurrentUser: isCurrentUser,
-                        imageName: isCurrentUser ? nil : avatar?.profileImageURL
+                        imageName: isCurrentUser ? nil : avatar?.profileImageURL,
+                        onImageTapped: {
+                            onChatMessageProfileImageTapped()
+                        }
                     )
                 }
             }
@@ -110,7 +124,23 @@ public struct MessageView: View {
     // MARK: - Actions
 
     private func onChatSettingsButtonTapped() {
-        showChatSettings = true
+        showChatSettings = AppAlert(
+            title: nil,
+            subtitle: "What would you like to do?",
+            buttons: {
+                AnyView(Group {
+                    Button("Report User / Chat", role: .destructive) {
+
+                    }
+                    Button("Delete Chat", role: .destructive) {
+
+                    }
+                })
+            })
+    }
+
+    private func onChatMessageProfileImageTapped() {
+        showProfileModal = true
     }
 
     private func onSendMessageButtonTapped() {
@@ -137,5 +167,7 @@ public struct MessageView: View {
 // MARK: - Previews
 
 #Preview {
-    MessageView()
+    NavigationStack {
+        MessageView()
+    }
 }
