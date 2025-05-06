@@ -8,15 +8,26 @@
 import Shared
 import AvatarModule
 import MessageFeature
+import CategoryFeature
 import SwiftUI
 
 public struct ExploreView: View {
+
+    enum Route: Hashable {
+        case chat(AvatarModel)
+        case category(CharacterOption)
+    }
 
     // MARK: - Properties
 
     @State private var featureAvatars: [AvatarModel]
     @State private var categories: [CharacterOption]
     @State private var popularAvatars: [AvatarModel]
+
+    @State private var selectedAvatar: AvatarModel?
+    @State private var selectedCategory: CharacterOption?
+
+    @State private var path: [Route] = []
 
     // MARK: - Initializers
 
@@ -33,11 +44,23 @@ public struct ExploreView: View {
     // MARK: - Body
 
     public var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             List {
                 featuredAvatarsSection
                 categorySection
                 popularSection
+            }
+            .navigationDestination(for: Route.self) { newValue in
+                switch newValue {
+                case let .chat(avatar):
+                    MessageView()
+                case let .category(category):
+                    CategoryListView(
+                        category: category,
+                        imageName: Constants.randomImageURLString,
+                        avatars: AvatarModel.mocks
+                    )
+                }
             }
         }
     }
@@ -52,6 +75,9 @@ public struct ExploreView: View {
                     subtitle: avatar.characterDescription,
                     imageURL: avatar.profileImageURL
                 )
+                .anyButton {
+                    onAvatarSelected(avatar)
+                }
             }
             .wrapForListStability()
             .frame(height: 200)
@@ -69,9 +95,12 @@ public struct ExploreView: View {
                         ImageTextView(
                             title: category.rawValue.capitalized,
                             subtitle: nil,
-                            imageURL: nil
+                            imageURL: Constants.randomImageURLString
                         )
                         .aspectRatio(1.0, contentMode: .fill)
+                        .anyButton(.press) {
+                            onCategorySelected(category)
+                        }
                     }
                 }
             }
@@ -101,6 +130,15 @@ public struct ExploreView: View {
         .removeListRowFormatting()
     }
 
+    // MARK: - Actions
+
+    private func onAvatarSelected(_ avatar: AvatarModel) {
+        path.append(.chat(avatar))
+    }
+
+    private func onCategorySelected(_ category: CharacterOption) {
+        path.append(.category(category))
+    }
 }
 
 // MARK: - Previews

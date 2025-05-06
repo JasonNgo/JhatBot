@@ -12,6 +12,7 @@ public struct ImageTextView: View {
     private(set) var title: String?
     private(set) var subtitle: String?
     private(set) var imageURL: String?
+    private(set) var cornerRadius: CGFloat
 
     private var textNotEmpty: Bool {
         title != nil || subtitle != nil
@@ -20,11 +21,13 @@ public struct ImageTextView: View {
     public init(
         title: String? = nil,
         subtitle: String? = nil,
-        imageURL: String? = nil
+        imageURL: String? = nil,
+        cornerRadius: CGFloat = 16
     ) {
         self.title = title
         self.subtitle = subtitle
         self.imageURL = imageURL
+        self.cornerRadius = cornerRadius
     }
 
     public var body: some View {
@@ -34,7 +37,7 @@ public struct ImageTextView: View {
                     textSection
                 }
             }
-            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
     }
 
     private func imageSection(imageURL: String?) -> some View {
