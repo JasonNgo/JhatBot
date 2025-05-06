@@ -7,28 +7,28 @@
 
 import SwiftUI
 
-public struct AppModalView<Content: View>: View {
+public struct AppModalView<T: Equatable, Content: View>: View {
 
     // MARK: - Properties
 
-    @Binding private var showModal: Bool
+    @Binding private var showModal: T?
     private var content: Content
 
     // MARK: - Initializers
 
     public init(
-        showModal: Binding<Bool>,
-        @ViewBuilder content: () -> Content
+        showModal: Binding<T?>,
+        @ViewBuilder content: (T?) -> Content
     ) {
         self._showModal = showModal
-        self.content = content()
+        self.content = content(showModal.wrappedValue)
     }
 
     // MARK: - Body
 
     public var body: some View {
         ZStack {
-            if showModal {
+            if let _ = self.showModal {
                 Color.gray.opacity(0.6).ignoresSafeArea()
                     .transition(AnyTransition.opacity.animation(.smooth))
                     .zIndex(1)
@@ -46,10 +46,10 @@ public struct AppModalView<Content: View>: View {
 }
 
 extension View {
-    public func showModal(_ showModal: Binding<Bool>, @ViewBuilder content: () -> some View) -> some View {
+    public func showModal<T: Equatable>(_ showModal: Binding<T?>, @ViewBuilder content: (T?) -> some View) -> some View {
         self.overlay(
-            AppModalView(showModal: showModal, content: {
-                content()
+            AppModalView(showModal: showModal, content: { value in
+                content(value)
             })
         )
     }

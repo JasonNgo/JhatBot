@@ -24,7 +24,7 @@ public struct MessageView: View {
 
     @State private var showAlert: AppAlert?
     @State private var showChatSettings: AppAlert?
-    @State private var showProfileModal: Bool = false
+    @State private var showProfileModal: AvatarModel?
 
     // MARK: - Initializers
 
@@ -51,7 +51,7 @@ public struct MessageView: View {
             }
         }
         .showCustomAlert(type: .confirmationDialog, alert: $showChatSettings)
-        .showModal($showProfileModal) {
+        .showModal($showProfileModal) { avatar in
             if let avatar {
                 ProfileImageModalView(
                     imageName: avatar.profileImageURL,
@@ -59,7 +59,7 @@ public struct MessageView: View {
                     subtitle: avatar.characterOption?.rawValue.capitalized,
                     headline: avatar.characterDescription,
                     onCloseButtonTapped: {
-                        showProfileModal = false
+                        showProfileModal = nil
                     }
                 )
                 .padding(40)
@@ -140,7 +140,7 @@ public struct MessageView: View {
     }
 
     private func onChatMessageProfileImageTapped() {
-        showProfileModal = true
+        showProfileModal = avatar
     }
 
     private func onSendMessageButtonTapped() {
