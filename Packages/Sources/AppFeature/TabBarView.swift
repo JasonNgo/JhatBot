@@ -5,8 +5,8 @@
 //  Created by Jason Ngo on 2025-04-22.
 //
 
+import SharedModels
 import ExploreFeature
-import AvatarModule
 import ChatFeature
 import ProfileFeature
 

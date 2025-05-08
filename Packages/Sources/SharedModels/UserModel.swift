@@ -38,7 +38,6 @@ public extension UserModel {
         return Color(hex: profileColorHex)
     }
 }
-
 #endif
 
 // MARK: - Mocks

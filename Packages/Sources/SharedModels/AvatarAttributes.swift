@@ -2,10 +2,28 @@
 //  File.swift
 //  Main
 //
-//  Created by Jason Ngo on 2025-04-28.
+//  Created by Jason Ngo on 2025-05-06.
 //
 
 import Foundation
+
+public enum CharacterOption: String, CaseIterable, Hashable, Sendable {
+    case man, woman, alien, dog, cat
+
+    public static var `default`: Self { .man }
+}
+
+public enum CharacterAction: String, CaseIterable, Hashable, Sendable {
+    case smiling, sitting, eating, drinking, walking, shopping, studying, working, relaxing, fighting, crying
+
+    public static var `default`: Self { .smiling }
+}
+
+public enum CharacterLocation: String, CaseIterable, Hashable, Sendable {
+    case park, mall, museum, city, desert, forest, space
+
+    public static var `default`: Self { .park }
+}
 
 public struct AvatarDescriptionBuilder {
     public let characterOption: CharacterOption

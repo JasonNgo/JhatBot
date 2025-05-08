@@ -5,7 +5,7 @@
 //  Created by Jason Ngo on 2025-04-28.
 //
 
-import AvatarModule
+import SharedModels
 import SwiftUI
 
 public struct ChatRowCellViewBuilder: View {

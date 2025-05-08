@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Shared
-import AvatarModule
+import SharedModels
 import RegistrationFeature
 
 public struct SettingsView: View {

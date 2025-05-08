@@ -8,10 +8,15 @@
 import SwiftUI
 
 public struct RegistrationView: View {
+
+    // MARK: - Initializers
+
     public init() {
 
     }
-    
+
+    // MARK: - Body
+
     public var body: some View {
         VStack(spacing: 24) {
             VStack(alignment: .leading) {
@@ -29,7 +34,10 @@ public struct RegistrationView: View {
         .padding(16)
         .padding(.top, 24)
     }
+
 }
+
+// MARK: - Previews
 
 #Preview {
     RegistrationView()

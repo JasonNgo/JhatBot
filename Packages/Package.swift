@@ -18,6 +18,7 @@ let package = Package(
         .target(
             name: "AppFeature",
             dependencies: [
+                "SharedModels",
                 "AuthenticationFeature",
                 "ExploreFeature",
                 "ChatFeature",
@@ -48,29 +49,22 @@ let package = Package(
             name: "ExploreFeature",
             dependencies: [
                 "Shared",
-                "AvatarModule",
                 "MessageFeature",
                 "CategoryFeature"
-            ]
-        ),
-        .target(
-            name: "AvatarModule",
-            dependencies: [
-                "Shared"
             ]
         ),
         .target(
             name: "ChatFeature",
             dependencies: [
                 "Shared",
-                "AvatarModule"
+                "SharedModels"
             ]
         ),
         .target(
             name: "ProfileFeature",
             dependencies: [
                 "Shared",
-                "AvatarModule",
+                "SharedModels",
                 "RegistrationFeature",
                 "CreateAvatarFeature"
             ]
@@ -89,13 +83,14 @@ let package = Package(
             name: "CreateAvatarFeature",
             dependencies: [
                 "Shared",
-                "AvatarModule"
+                "SharedModels"
             ]
         ),
         .target(
             name: "MessageFeature",
             dependencies: [
                 "Shared",
+                "SharedModels",
                 "ChatFeature",
                 "ProfileFeature"
             ]
@@ -104,7 +99,13 @@ let package = Package(
             name: "CategoryFeature",
             dependencies: [
                 "Shared",
-                "AvatarModule"
+                "SharedModels"
+            ]
+        ),
+        .target(
+            name: "SharedModels",
+            dependencies: [
+                "Shared"
             ]
         )
     ]

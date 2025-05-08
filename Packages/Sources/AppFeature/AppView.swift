@@ -14,16 +14,17 @@ public struct AppView: View {
     // MARK: - Body
 
     public var body: some View {
-        AppViewBuilder(
-            isAuthenticated: appState.isAuthenticated,
-            authenticatedContentView: {
-                TabBarView()
-            },
-            unauthenticatedContentView: {
-                WelcomeView()
-            }
-        )
-        .environment(appState)
+        TimerListView()
+//        AppViewBuilder(
+//            isAuthenticated: appState.isAuthenticated,
+//            authenticatedContentView: {
+//                TabBarView()
+//            },
+//            unauthenticatedContentView: {
+//                WelcomeView()
+//            }
+//        )
+//        .environment(appState)
     }
 
     // MARK: - Properties

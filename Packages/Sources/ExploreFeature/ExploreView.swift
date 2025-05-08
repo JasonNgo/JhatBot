@@ -6,7 +6,7 @@
 //
 
 import Shared
-import AvatarModule
+import SharedModels
 import MessageFeature
 import CategoryFeature
 import SwiftUI
