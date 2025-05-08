@@ -5,7 +5,7 @@
 //  Created by Jason Ngo on 2025-05-05.
 //
 
-import Shared
+import SharedViews
 import SwiftUI
 
 public struct ChatMessageView: View {
@@ -70,6 +70,8 @@ public struct ChatMessageView: View {
     }
 
 }
+
+// MARK: - Previews
 
 #Preview {
     ChatMessageView(text: "Hello")

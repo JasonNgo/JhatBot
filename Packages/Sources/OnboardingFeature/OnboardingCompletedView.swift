@@ -6,6 +6,7 @@
 //
 
 import Shared
+import SharedModels
 import SwiftUI
 
 public struct OnboardingCompletedView: View {

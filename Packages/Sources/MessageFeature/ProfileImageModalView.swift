@@ -6,6 +6,7 @@
 //
 
 import Shared
+import SharedViews
 import SwiftUI
 
 public struct ProfileImageModalView: View {

@@ -6,6 +6,7 @@
 //
 
 import Shared
+import SharedModels
 import AuthenticationFeature
 import SwiftUI
 

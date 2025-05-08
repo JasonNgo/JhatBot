@@ -26,7 +26,7 @@ public struct UserModel {
     }
 }
 
-#if canImport(SwiftUI)
+#if canImport(SwiftUI) && canImport(Shared)
 import SwiftUI
 
 public extension UserModel {

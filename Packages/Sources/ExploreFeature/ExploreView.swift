@@ -7,6 +7,7 @@
 
 import Shared
 import SharedModels
+import SharedViews
 import MessageFeature
 import CategoryFeature
 import SwiftUI

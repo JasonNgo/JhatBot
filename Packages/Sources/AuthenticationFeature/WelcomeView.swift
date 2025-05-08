@@ -6,6 +6,8 @@
 //
 
 import Shared
+import SharedModels
+import SharedViews
 import OnboardingFeature
 import RegistrationFeature
 import SwiftUI

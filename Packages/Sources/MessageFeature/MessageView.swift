@@ -7,6 +7,7 @@
 
 import Shared
 import SharedModels
+import SharedViews
 import ChatFeature
 import ProfileFeature
 import SwiftUI
