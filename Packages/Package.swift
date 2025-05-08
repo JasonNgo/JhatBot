@@ -12,7 +12,8 @@ let package = Package(
         .singleTargetLibrary("AppFeature")
     ],
     dependencies: [
-        .package(url: "https://github.com/SDWebImage/SDWebImageSwiftUI", exact: "3.1.3")
+        .package(url: "https://github.com/SDWebImage/SDWebImageSwiftUI", exact: "3.1.3"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.12.0"),
     ],
     targets: [
         .target(
@@ -23,7 +24,8 @@ let package = Package(
                 "AuthenticationFeature",
                 "ExploreFeature",
                 "ChatFeature",
-                "ProfileFeature"
+                "ProfileFeature",
+                "FirebaseAuthenticationFeature"
             ]
         ),
         .testTarget(
@@ -115,12 +117,12 @@ let package = Package(
                 "Shared"
             ]
         ),
-        .target(
-            name: "SharedViews",
-            dependencies: [
-                "Shared"
-            ]
-        )
+        .target(name: "SharedViews", dependencies: [
+            "Shared"
+        ]),
+        .target(name: "FirebaseAuthenticationFeature", dependencies: [
+            .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
+        ])
     ]
 )
 

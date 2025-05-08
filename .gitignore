@@ -1,0 +1,8 @@
+.DS_Store
+/.build
+xcuserdata/
+DerivedData/
+Packages/.swiftpm/configuration/registries.json
+Packages/.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.nitric
+JhatBot/GoogleService-Info.plist
