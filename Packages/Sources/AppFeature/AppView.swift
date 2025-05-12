@@ -8,29 +8,33 @@
 import Shared
 import SharedModels
 import AuthenticationFeature
+import AuthService
 import SwiftUI
 
 public struct AppView: View {
 
+    // MARK: - Properties
+
+    @Environment(\.authService) private var authService
+    @State private var appState: AppState
+
     // MARK: - Body
 
     public var body: some View {
-        TimerListView()
-//        AppViewBuilder(
-//            isAuthenticated: appState.isAuthenticated,
-//            authenticatedContentView: {
-//                TabBarView()
-//            },
-//            unauthenticatedContentView: {
-//                WelcomeView()
-//            }
-//        )
-//        .environment(appState)
+        AppViewBuilder(
+            isAuthenticated: appState.isAuthenticated,
+            authenticatedContentView: {
+                TabBarView()
+            },
+            unauthenticatedContentView: {
+                WelcomeView()
+            }
+        )
+        .environment(appState)
+        .task {
+            await checkUserStatus()
+        }
     }
-
-    // MARK: - Properties
-
-    @State private var appState: AppState
 
     // MARK: - Initializers
 
@@ -38,6 +42,25 @@ public struct AppView: View {
         self.appState = appState
     }
 
+    // MARK: - Actions
+
+    private func checkUserStatus() async {
+        if let user = authService.getAuthenticatedUser() {
+            print("User already authenticated. User ID: \(user.uid)")
+        } else {
+            do {
+                let result = try await authService.signInAnonymously()
+                print("Sign in anonymously successful. User ID: \(result.user.uid)")
+            } catch {
+                print(error)
+            }
+        }
+    }
+
+}
+
+public extension EnvironmentValues {
+    @Entry var authService: AuthService = .firebase
 }
 
 // MARK: - Previews

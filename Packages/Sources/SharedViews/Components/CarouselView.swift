@@ -27,9 +27,8 @@ public struct CarouselView<Item, ContentItem>: View where Item: Hashable, Conten
                 }
             }
             .scrollIndicators(scrollIndicatorVisibility)
-            .scrollTargetLayout()
             .scrollTargetBehavior(.paging)
-            .scrollPosition(id: $selectedItem)
+            .trackScrollPosition($selectedItem)
             .onAppear {
                 if selectedItem == nil {
                     selectedItem = items.first

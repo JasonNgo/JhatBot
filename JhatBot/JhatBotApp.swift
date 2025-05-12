@@ -18,4 +18,5 @@ struct JhatBotApp: App {
             AppView()
         }
     }
+
 }

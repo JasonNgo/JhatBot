@@ -8,6 +8,27 @@
 import SwiftUI
 
 extension View {
+    @available(iOS 18.0, *)
+    public func trackScrollPosition(
+        _ position: Binding<ScrollPosition>,
+        anchor: UnitPoint? = nil
+    ) -> some View {
+        self
+            .scrollTargetLayout()
+            .scrollPosition(position, anchor: anchor)
+    }
+
+    public func trackScrollPosition(
+        _ id: Binding<(some Hashable)?>,
+        anchor: UnitPoint? = nil
+    ) -> some View {
+        self
+            .scrollTargetLayout()
+            .scrollPosition(id: id, anchor: anchor)
+    }
+}
+
+extension View {
     public func withCallToActionStyle() -> some View {
         self
             .font(.headline)
