@@ -170,6 +170,50 @@
             endingLineNumber = "160"
             landmarkName = "authorizationController(controller:didCompleteWithError:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7B2F99DB-B6D5-4B47-A487-2BA0C1A3F7E6 - b402f87132499a90"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AuthService.SignInWithAppleHelper.authorizationController(controller: __C.ASAuthorizationController, didCompleteWithError: Swift.Error) -&gt; ()"
+                  moduleName = "JhatBot.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jasonngo/Developer/iOS/JhatBot/Packages/Sources/AuthService/SignInWithApple/SignInWithAppleHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "160"
+                  endingLineNumber = "160">
+               </Location>
+               <Location
+                  uuid = "7B2F99DB-B6D5-4B47-A487-2BA0C1A3F7E6 - 195a00e8a4a08dfc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor @Sendable () async -&gt; () in AuthService.SignInWithAppleHelper.authorizationController(controller: __C.ASAuthorizationController, didCompleteWithError: Swift.Error) -&gt; ()"
+                  moduleName = "JhatBot.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jasonngo/Developer/iOS/JhatBot/Packages/Sources/AuthService/SignInWithApple/SignInWithAppleHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "160"
+                  endingLineNumber = "160">
+               </Location>
+               <Location
+                  uuid = "7B2F99DB-B6D5-4B47-A487-2BA0C1A3F7E6 - a728e954849c6e85"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 @Swift.MainActor @Sendable () async -&gt; () in AuthService.SignInWithAppleHelper.authorizationController(controller: __C.ASAuthorizationController, didCompleteWithError: Swift.Error) -&gt; ()"
+                  moduleName = "JhatBot.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jasonngo/Developer/iOS/JhatBot/Packages/Sources/AuthService/SignInWithApple/SignInWithAppleHelper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "160"
+                  endingLineNumber = "160">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

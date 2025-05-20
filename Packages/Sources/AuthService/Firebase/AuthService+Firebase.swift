@@ -64,6 +64,20 @@ public extension AuthService {
             }
 
             try await user.delete()
+        },
+        addAuthenticatedUserListener: { onListenerAttached in
+            AsyncStream { continuation in
+                let listener = Auth.auth().addStateDidChangeListener { _, currentUser in
+                    if let currentUser {
+                        let user = UserAuthInfo(currentUser)
+                        continuation.yield(user)
+                    } else {
+                        continuation.yield(nil)
+                    }
+                }
+
+                onListenerAttached(listener)
+            }
         }
     )
 }

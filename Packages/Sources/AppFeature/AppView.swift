@@ -15,7 +15,7 @@ public struct AppView: View {
 
     // MARK: - Properties
 
-    @Environment(\.authService) private var authService
+    @Environment(AuthManager.self) private var authManager
     @State private var appState: AppState
 
     // MARK: - Body
@@ -52,11 +52,11 @@ public struct AppView: View {
     // MARK: - Actions
 
     private func checkUserStatus() async {
-        if let user = authService.getAuthenticatedUser() {
+        if let user = authManager.auth {
             print("User already authenticated. User ID: \(user.uid)")
         } else {
             do {
-                let result = try await authService.signInAnonymously()
+                let result = try await authManager.signInAnonymously()
                 print("Sign in anonymously successful. User ID: \(result.user.uid)")
             } catch {
                 print(error)

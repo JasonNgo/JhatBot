@@ -18,7 +18,7 @@ public struct SettingsView: View {
 
 //    @Environment(AppState.self) private var appState
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.authService) private var authService
+    @Environment(AuthManager.self) private var authManager
 
     @State private var isPremium = false
     @State private var isAnonymousUser = false
@@ -153,7 +153,7 @@ public struct SettingsView: View {
     private func onSignOutButtonTapped() {
         Task {
             do {
-                try await authService.signOut()
+                try await authManager.signOut()
                 await dismissScreen()
             } catch {
                 showAlert = AppAlert(error: error)
@@ -180,7 +180,7 @@ public struct SettingsView: View {
     private func onDeleteAccountConfirmed() {
         Task {
             do {
-                try await authService.deleteAccount()
+                try await authManager.deleteAccount()
                 await dismissScreen()
             } catch {
                 showAlert = AppAlert(error: error)
@@ -195,7 +195,7 @@ public struct SettingsView: View {
     }
 
     private func setAnonymousAuthStatus() {
-        self.isAnonymousUser = authService.getAuthenticatedUser()?.isAnonymous == true
+        self.isAnonymousUser = authManager.auth?.isAnonymous == true
     }
 
 }

@@ -13,6 +13,10 @@ public struct AuthService: Sendable {
     public var signInWithApple: @Sendable () async throws -> (user: UserAuthInfo, isNewUser: Bool)
     public var signOut: @Sendable () async throws -> Void
     public var deleteAccount: @Sendable () async throws -> Void
+
+    public var addAuthenticatedUserListener: @Sendable (
+        _ onListenerAttached: (any NSObjectProtocol) -> Void
+    ) -> AsyncStream<UserAuthInfo?>
 }
 
 #if canImport(SwiftUI)

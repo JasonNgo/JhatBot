@@ -14,7 +14,7 @@ public struct RegistrationView: View {
     // MARK: - Properties
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.authService) private var authService
+    @Environment(AuthManager.self) private var authManager
 
     public private(set) var onDidSignIn: ((_ isNewUser: Bool) -> Void)?
 
@@ -59,7 +59,7 @@ public struct RegistrationView: View {
     private func onSignInWithAppleButtonTapped() {
         Task {
             do {
-                let result = try await authService.signInWithApple()
+                let result = try await authManager.signInWithApple()
                 onDidSignIn?(result.isNewUser)
                 dismiss.callAsFunction()
             } catch {
