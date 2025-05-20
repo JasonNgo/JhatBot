@@ -28,6 +28,22 @@ public struct AppAlert: Sendable {
         self.buttons = buttons
     }
 
+    public init(
+        error: Error,
+        title: String? = "An error has occurred",
+        buttons: @escaping @Sendable () -> AnyView = {
+            AnyView(Group {
+                Button("OK", role: .cancel) {
+
+                }
+            })
+        }
+    ) {
+        self.title = title
+        self.subtitle = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+        self.buttons = buttons
+    }
+
 }
 
 public enum AppAlertType {

@@ -5,9 +5,8 @@
 //  Created by Jason Ngo on 2025-05-08.
 //
 
-import SwiftUI
 import Firebase
-import FirebaseAuth
+import SwiftUI
 
 public class AppDelegate: NSObject, UIApplicationDelegate {
 

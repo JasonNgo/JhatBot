@@ -72,7 +72,8 @@ let package = Package(
                 "SharedModels",
                 "SharedViews",
                 "RegistrationFeature",
-                "CreateAvatarFeature"
+                "CreateAvatarFeature",
+                "AuthService"
             ]
         ),
         .target(
@@ -83,7 +84,10 @@ let package = Package(
         ),
         .target(
             name: "RegistrationFeature",
-            dependencies: []
+            dependencies: [
+                "SharedViews",
+                "AuthService"
+            ]
         ),
         .target(
             name: "CreateAvatarFeature",

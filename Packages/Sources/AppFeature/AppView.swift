@@ -34,6 +34,13 @@ public struct AppView: View {
         .task {
             await checkUserStatus()
         }
+        .onChange(of: appState.isAuthenticated) { _, newValue in
+            if !newValue {
+                Task {
+                    await checkUserStatus()
+                }
+            }
+        }
     }
 
     // MARK: - Initializers
@@ -57,10 +64,6 @@ public struct AppView: View {
         }
     }
 
-}
-
-public extension EnvironmentValues {
-    @Entry var authService: AuthService = .firebase
 }
 
 // MARK: - Previews

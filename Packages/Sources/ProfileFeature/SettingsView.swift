@@ -8,6 +8,8 @@
 import SwiftUI
 import Shared
 import SharedModels
+import SharedViews
+import AuthService
 import RegistrationFeature
 
 public struct SettingsView: View {
@@ -16,10 +18,12 @@ public struct SettingsView: View {
 
 //    @Environment(AppState.self) private var appState
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.authService) private var authService
 
     @State private var isPremium = false
     @State private var isAnonymousUser = false
     @State private var showRegistrationView = false
+    @State private var showAlert: AppAlert?
 
     // MARK: - Body
 
@@ -33,9 +37,18 @@ public struct SettingsView: View {
             }
             .navigationTitle("Settings")
         }
-        .sheet(isPresented: $showRegistrationView) {
-            RegistrationView()
-                .presentationDetents([.medium])
+        .sheet(
+            isPresented: $showRegistrationView,
+            onDismiss: {
+                setAnonymousAuthStatus()
+            },
+            content: {
+                RegistrationView()
+                    .presentationDetents([.medium])
+            }
+        )
+        .onAppear {
+            setAnonymousAuthStatus()
         }
     }
     
@@ -103,16 +116,20 @@ public struct SettingsView: View {
     
     private var signOutSection: some View {
         Section {
-            Button(action: onSignOutButtonTapped) {
-                if isAnonymousUser {
-                    Text("Save and backup account")
-                        .foregroundColor(.primary)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                } else {
-                    Text("Sign Out")
-                        .foregroundColor(.primary)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
+            if isAnonymousUser {
+                Text("Save and backup account")
+                    .foregroundColor(.primary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .anyButton(.highlight) {
+                        onCreateAccountButtonTapped()
+                    }
+            } else {
+                Text("Sign Out")
+                    .foregroundColor(.primary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .anyButton(.highlight) {
+                        onSignOutButtonTapped()
+                    }
             }
         }
     }
@@ -129,21 +146,56 @@ public struct SettingsView: View {
 
     // MARK: - Actions
 
-    private func onSignOutButtonTapped() {
-        dismiss.callAsFunction()
+    private func onCreateAccountButtonTapped() {
+        showRegistrationView = true
+    }
 
-        if isAnonymousUser {
-            showRegistrationView = true
-        } else {
-            Task {
-                try? await Task.sleep(for: .seconds(1))
-                //            appState.updateAuthenticationState(false)
+    private func onSignOutButtonTapped() {
+        Task {
+            do {
+                try await authService.signOut()
+                await dismissScreen()
+            } catch {
+                showAlert = AppAlert(error: error)
             }
         }
     }
 
     private func onDeleteAccountButtonTapped() {
+        showAlert = AppAlert(
+            title: "Delete Account?",
+            subtitle: "This action is permanent and cannot be undone. Your data will be deleted from our server.",
+            buttons: {
+                AnyView(Group {
+                    Button("Delete", role: .destructive) {
+                        onDeleteAccountConfirmed()
+                    }
+                    Button("Cancel", role: .cancel) {
 
+                    }
+                })
+            })
+    }
+
+    private func onDeleteAccountConfirmed() {
+        Task {
+            do {
+                try await authService.deleteAccount()
+                await dismissScreen()
+            } catch {
+                showAlert = AppAlert(error: error)
+            }
+        }
+    }
+
+    private func dismissScreen() async {
+        dismiss.callAsFunction()
+        try? await Task.sleep(for: .seconds(1))
+        //            appState.updateAuthenticationState(false)
+    }
+
+    private func setAnonymousAuthStatus() {
+        self.isAnonymousUser = authService.getAuthenticatedUser()?.isAnonymous == true
     }
 
 }

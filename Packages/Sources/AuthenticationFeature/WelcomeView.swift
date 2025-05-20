@@ -41,6 +41,10 @@ public struct WelcomeView: View {
                 policySection
             }
         }
+        .sheet(isPresented: $showRegistrationView) {
+            RegistrationView()
+                .presentationDetents([.medium])
+        }
     }
 
     // MARK: - Sections

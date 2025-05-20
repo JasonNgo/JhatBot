@@ -5,14 +5,25 @@
 //  Created by Jason Ngo on 2025-05-05.
 //
 
+import SharedViews
+import AuthService
 import SwiftUI
 
 public struct RegistrationView: View {
 
+    // MARK: - Properties
+
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.authService) private var authService
+
+    public private(set) var onDidSignIn: ((_ isNewUser: Bool) -> Void)?
+
     // MARK: - Initializers
 
-    public init() {
-
+    public init(
+        onDidSignIn: ((_ isNewUser: Bool) -> Void)? = nil
+    ) {
+        self.onDidSignIn = onDidSignIn
     }
 
     // MARK: - Body
@@ -29,10 +40,32 @@ public struct RegistrationView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
+            SignInWithAppleButtonView(
+                type: .signIn,
+                style: .black,
+                cornerRadius: 10
+            )
+            .frame(height: 55)
+            .anyButton(.press) {
+                onSignInWithAppleButtonTapped()
+            }
+
             Spacer()
         }
         .padding(16)
         .padding(.top, 24)
+    }
+
+    private func onSignInWithAppleButtonTapped() {
+        Task {
+            do {
+                let result = try await authService.signInWithApple()
+                onDidSignIn?(result.isNewUser)
+                dismiss.callAsFunction()
+            } catch {
+
+            }
+        }
     }
 
 }
