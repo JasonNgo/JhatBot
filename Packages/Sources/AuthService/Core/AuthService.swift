@@ -20,7 +20,7 @@ public struct AuthService: Sendable {
 import SwiftUI
 
 public extension EnvironmentValues {
-    @Entry var authService: AuthService = .firebase
+    @Entry var authService: AuthService = .mockWithUser
 }
 
 #endif

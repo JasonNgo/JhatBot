@@ -210,7 +210,16 @@ fileprivate extension View {
     }
 }
 
-#Preview {
+// MARK: - Previews
+
+#Preview("Anonymous") {
     SettingsView()
         .environment(AppState())
+        .environment(\.authService, .mockWithAnonymousUser)
+}
+
+#Preview("Not Anonymous") {
+    SettingsView()
+        .environment(AppState())
+        .environment(\.authService, .mockWithUser)
 }
