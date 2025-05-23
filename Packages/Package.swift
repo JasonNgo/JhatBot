@@ -47,7 +47,8 @@ let package = Package(
             name: "OnboardingFeature",
             dependencies: [
                 "Shared",
-                "SharedModels"
+                "SharedModels",
+                "UserFeature"
             ]
         ),
         .target(

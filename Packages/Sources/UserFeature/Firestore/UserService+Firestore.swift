@@ -16,6 +16,15 @@ public extension UserService {
                 .document(user.userId)
                 .setData(from: user, merge: true)
         },
+        deleteUser: { userId in
+            Firestore.firestore().collection("users")
+                .document(userId).delete()
+        },
+        updateUser: { userId, updates in
+            Firestore.firestore().collection("users")
+                .document(userId)
+                .updateData(updates)
+        },
         addUserListener: { userId, onListenerAttached in
             AsyncThrowingStream { continuation in
                 let listener = Firestore.firestore().collection("users").document(userId)
@@ -39,15 +48,29 @@ public extension UserService {
                     }
 
                 let sendableListener = SendableListenerRegistration(listener)
-                
                 continuation.onTermination = { _ in
                     sendableListener.remove()
                 }
 
                 onListenerAttached(listener)
             }
+        },
+        removeUserListener: { listener in
+            guard let firebaseListener = listener as? ListenerRegistration else { return }
+            firebaseListener.remove()
         }
     )
 }
 
+// swiftlint:disable:next private_over_fileprivate
+fileprivate struct SendableListenerRegistration: @unchecked Sendable {
+    private let registration: ListenerRegistration
 
+    init(_ registration: ListenerRegistration) {
+        self.registration = registration
+    }
+
+   func remove() {
+        registration.remove()
+    }
+}

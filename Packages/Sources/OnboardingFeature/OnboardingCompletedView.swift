@@ -7,9 +7,26 @@
 
 import Shared
 import SharedModels
+import UserFeature
 import SwiftUI
 
 public struct OnboardingCompletedView: View {
+
+    // MARK: - Properties
+
+    @Environment(AppState.self) private var appState
+    @Environment(UserManager.self) private var userManager
+    @State private var isLoading = false
+
+    // MARK: - Dependencies
+
+    private var selectedColor: Color
+
+    // MARK: - Initializers
+
+    public init(selectedColor: Color) {
+        self.selectedColor = selectedColor
+    }
 
     // MARK: - Body
 
@@ -45,27 +62,14 @@ public struct OnboardingCompletedView: View {
         .toolbar(.hidden, for: .navigationBar)
     }
 
-    // MARK: - Properties
-
-    @Environment(AppState.self) private var appState
-
-    @State private var isLoading = false
-
-    private var selectedColor: Color
-
-    // MARK: - Initializers
-
-    public init(selectedColor: Color) {
-        self.selectedColor = selectedColor
-    }
-
     // MARK: - Actions
 
     private func onActionButtonTapped() {
         isLoading = true
 
         Task {
-            try? await Task.sleep(for: .seconds(2))
+            let profileColorHex = selectedColor.asHex()
+            try await userManager.updateOnboardingStatusForCurrentUser(profileColorHex: profileColorHex)
 
             isLoading = false
             appState.updateAuthenticationState(true)
@@ -79,4 +83,5 @@ public struct OnboardingCompletedView: View {
 #Preview {
     OnboardingCompletedView(selectedColor: .orange)
         .environment(AppState())
+        .environment(UserManager(service: .mock(user: .mock)))
 }

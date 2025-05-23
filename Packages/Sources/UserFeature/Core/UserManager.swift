@@ -17,6 +17,21 @@ public class UserManager {
     // MARK: - Properties
 
     public private(set) var currentUser: UserModel?
+    // listener
+    private var currentUserListener: (any NSObjectProtocol)?
+    private var listenerTask: Task<Void, Never>?
+
+    // MARK: - Computed
+
+    private var currentUserId: String {
+        get throws {
+            guard let userId = currentUser?.userId else {
+                throw UserManagerError.noUserId
+            }
+
+            return userId
+        }
+    }
 
     // MARK: - Dependencies
 
@@ -31,18 +46,65 @@ public class UserManager {
 
     // MARK: - Listener
 
-    private func setupUserListener() {
+    public func configureUserListener(userId: String) {
+        removeUserListener()
         
+        self.listenerTask = Task {
+            do {
+                for try await value in service.addUserListener(userId, { listener in
+                    self.currentUserListener = listener
+                }) {
+                    self.currentUser = value
+                    print("Successfully listened to user: \(value.userId)")
+                }
+            } catch {
+                print("Error attaching user listener: \(error)")
+            }
+        }
+    }
+    
+    public func removeUserListener() {
+        // Remove the actual listener
+        if let listener = currentUserListener {
+            service.removeUserListener(listener)
+            currentUserListener = nil
+        }
+
+        // Cancel the stream task
+        listenerTask?.cancel()
+        listenerTask = nil
     }
 
-    // MARK: -
+    // MARK: - Auth
 
     public func login(auth: UserAuthInfo, isNewUser: Bool) async throws {
         let creationVersion = isNewUser ? Utilities.appVersion : nil
         let user = UserModel(auth: auth, creationVersion: creationVersion)
 
         try await service.saveUser(user)
+        configureUserListener(userId: user.userId)
     }
 
+    public func logout() {
+        removeUserListener()
+        currentUser = nil
+    }
+
+    // MARK: - Current User
+
+    public func updateOnboardingStatusForCurrentUser(profileColorHex: String) async throws {
+        let userId = try currentUserId
+
+        try await service.updateUser(userId, [
+            UserModel.CodingKeys.didCompleteOnboarding.stringValue: true,
+            UserModel.CodingKeys.profileColorHex.stringValue: profileColorHex
+        ])
+    }
+
+    public func deleteCurrentUser() async throws {
+        let userId = try currentUserId
+        try await service.deleteUser(userId)
+        logout()
+    }
 
 }

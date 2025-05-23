@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct UserModel: Codable {
+public struct UserModel: Codable, Sendable {
     public let userId: String
     public let email: String?
     public let isAnonymous: Bool
@@ -37,7 +37,7 @@ public struct UserModel: Codable {
         self.profileColorHex = profileColorHex
     }
 
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case userId = "user_id"
         case email = "email"
         case isAnonymous = "is_anonymous"

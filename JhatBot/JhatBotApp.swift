@@ -33,5 +33,4 @@ struct EnvironmentBuilderView<Content: View>: View {
             .environment(UserManager(service: .firestore))
     }
 
-
 }

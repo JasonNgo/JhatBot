@@ -11,14 +11,16 @@ import SharedModels
 import SharedViews
 import AuthService
 import RegistrationFeature
+import UserFeature
 
 public struct SettingsView: View {
 
     // MARK: - Properties
 
-//    @Environment(AppState.self) private var appState
     @Environment(\.dismiss) private var dismiss
+    @Environment(AppState.self) private var appState
     @Environment(AuthManager.self) private var authManager
+    @Environment(UserManager.self) private var userManager
 
     @State private var isPremium = false
     @State private var isAnonymousUser = false
@@ -37,6 +39,9 @@ public struct SettingsView: View {
             }
             .navigationTitle("Settings")
         }
+        .onAppear {
+            setAnonymousAuthStatus()
+        }
         .sheet(
             isPresented: $showRegistrationView,
             onDismiss: {
@@ -47,9 +52,7 @@ public struct SettingsView: View {
                     .presentationDetents([.medium])
             }
         )
-        .onAppear {
-            setAnonymousAuthStatus()
-        }
+        .showCustomAlert(alert: $showAlert)
     }
     
     // MARK: - Components
@@ -154,6 +157,7 @@ public struct SettingsView: View {
         Task {
             do {
                 try await authManager.signOut()
+                userManager.logout()
                 await dismissScreen()
             } catch {
                 showAlert = AppAlert(error: error)
@@ -181,6 +185,7 @@ public struct SettingsView: View {
         Task {
             do {
                 try await authManager.deleteAccount()
+                try await userManager.deleteCurrentUser()
                 await dismissScreen()
             } catch {
                 showAlert = AppAlert(error: error)
@@ -190,8 +195,8 @@ public struct SettingsView: View {
 
     private func dismissScreen() async {
         dismiss.callAsFunction()
-        try? await Task.sleep(for: .seconds(1))
-        //            appState.updateAuthenticationState(false)
+        try? await Task.sleep(for: .seconds(1)) // sleep to trigger dismiss animation and then update root
+        appState.updateAuthenticationState(false)
     }
 
     private func setAnonymousAuthStatus() {
@@ -215,11 +220,13 @@ fileprivate extension View {
 #Preview("Anonymous") {
     SettingsView()
         .environment(AppState())
-        .environment(\.authService, .mockWithAnonymousUser)
+        .environment(AuthManager(service: .mockWithAnonymousUser))
+        .environment(UserManager(service: .mock(user: .mock)))
 }
 
 #Preview("Not Anonymous") {
     SettingsView()
         .environment(AppState())
-        .environment(\.authService, .mockWithUser)
+        .environment(AuthManager(service: .mockWithUser))
+        .environment(UserManager(service: .mock(user: .mock)))
 }

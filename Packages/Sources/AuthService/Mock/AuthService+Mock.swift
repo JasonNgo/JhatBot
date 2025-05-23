@@ -25,7 +25,7 @@ public extension AuthService {
         deleteAccount: {
 
         },
-        addAuthenticatedUserListener: { onListenerAttached in
+        addAuthenticatedUserListener: { _ in
             AsyncStream { continuation in
                 continuation.yield(UserAuthInfo.mock(isAnonymous: true))
             }
@@ -48,7 +48,7 @@ public extension AuthService {
         deleteAccount: {
 
         },
-        addAuthenticatedUserListener: { onListenerAttached in
+        addAuthenticatedUserListener: { _ in
             AsyncStream { continuation in
                 continuation.yield(UserAuthInfo.mock())
             }
@@ -71,7 +71,7 @@ public extension AuthService {
         deleteAccount: {
 
         },
-        addAuthenticatedUserListener: { onListenerAttached in
+        addAuthenticatedUserListener: { _ in
             AsyncStream { continuation in
                 continuation.yield(nil)
             }

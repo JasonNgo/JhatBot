@@ -9,11 +9,14 @@ import Shared
 import SharedModels
 import SharedViews
 import CreateAvatarFeature
+import UserFeature
 import SwiftUI
 
 public struct ProfileView: View {
 
     // MARK: - Properties
+
+    @Environment(UserManager.self) private var userManager
 
     @State private var currentUser: UserModel?
     @State private var avatars: [AvatarModel] = []
@@ -159,6 +162,8 @@ public struct ProfileView: View {
     }
 
     private func loadData() async {
+        self.currentUser = userManager.currentUser
+
         try? await Task.sleep(for: .seconds(3))
         isLoading = false
         avatars = AvatarModel.mocks
@@ -170,4 +175,5 @@ public struct ProfileView: View {
 
 #Preview {
     ProfileView()
+        .environment(UserManager(service: .mock(user: .mock)))
 }
