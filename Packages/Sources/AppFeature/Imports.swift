@@ -6,3 +6,4 @@
 //
 
 @_exported import AuthService
+@_exported import UserFeature

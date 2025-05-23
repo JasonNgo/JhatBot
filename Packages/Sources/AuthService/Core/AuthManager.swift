@@ -5,6 +5,7 @@
 //  Created by Jason Ngo on 2025-05-20.
 //
 
+import SharedModels
 import Foundation
 import Observation
 
@@ -56,12 +57,12 @@ public class AuthManager {
         try await service.signInWithApple()
     }
 
-    public func signOut() async throws -> Void {
+    public func signOut() async throws {
         try await service.signOut()
         auth = nil
     }
 
-    public func deleteAccount() async throws -> Void {
+    public func deleteAccount() async throws {
         try await service.deleteAccount()
         auth = nil
     }

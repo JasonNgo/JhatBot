@@ -5,15 +5,18 @@
 //  Created by Jason Ngo on 2025-05-12.
 //
 
+import SharedModels
 import Foundation
 import FirebaseAuth
 
 extension UserAuthInfo {
-    public init(_ user: User) {
-        self.uid = user.uid
-        self.email = user.email
-        self.isAnonymous = user.isAnonymous
-        self.creationDate = user.metadata.creationDate
-        self.lastSignInDate = user.metadata.lastSignInDate
+    public static func makeFromUser(_ user: User) -> UserAuthInfo {
+        .init(
+            uid: user.uid,
+            email: user.email,
+            isAnonymous: user.isAnonymous,
+            creationDate: user.metadata.creationDate,
+            lastSignInDate: user.metadata.lastSignInDate
+        )
     }
 }

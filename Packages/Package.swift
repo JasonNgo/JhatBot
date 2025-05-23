@@ -25,7 +25,8 @@ let package = Package(
                 "ExploreFeature",
                 "ChatFeature",
                 "ProfileFeature",
-                "AuthService"
+                "AuthService",
+                "UserFeature"
             ]
         ),
         .testTarget(
@@ -86,7 +87,8 @@ let package = Package(
             name: "RegistrationFeature",
             dependencies: [
                 "SharedViews",
-                "AuthService"
+                "AuthService",
+                "UserFeature"
             ]
         ),
         .target(
@@ -125,7 +127,13 @@ let package = Package(
             "Shared"
         ]),
         .target(name: "AuthService", dependencies: [
-            .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
+            .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+            "SharedModels"
+        ]),
+        .target(name: "UserFeature", dependencies: [
+            .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+            "Shared",
+            "SharedModels"
         ])
     ]
 )

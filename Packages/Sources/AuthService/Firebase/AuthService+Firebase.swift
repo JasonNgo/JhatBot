@@ -5,6 +5,7 @@
 //  Created by Jason Ngo on 2025-05-12.
 //
 
+import SharedModels
 import Firebase
 import FirebaseAuth
 import Foundation
@@ -13,7 +14,7 @@ public extension AuthService {
     static let firebase = Self(
         getAuthenticatedUser: {
             if let user = Auth.auth().currentUser {
-                return UserAuthInfo(user)
+                return UserAuthInfo.makeFromUser(user)
             } else {
                 return nil
             }
@@ -69,7 +70,7 @@ public extension AuthService {
             AsyncStream { continuation in
                 let listener = Auth.auth().addStateDidChangeListener { _, currentUser in
                     if let currentUser {
-                        let user = UserAuthInfo(currentUser)
+                        let user = UserAuthInfo.makeFromUser(currentUser)
                         continuation.yield(user)
                     } else {
                         continuation.yield(nil)
@@ -84,7 +85,7 @@ public extension AuthService {
 
 fileprivate extension AuthDataResult {
     var asAuthInfo: (UserAuthInfo, Bool) {
-        let userAuthResult = UserAuthInfo(user)
+        let userAuthResult = UserAuthInfo.makeFromUser(user)
         let isNewUser = additionalUserInfo?.isNewUser ?? true
         return (userAuthResult, isNewUser)
     }

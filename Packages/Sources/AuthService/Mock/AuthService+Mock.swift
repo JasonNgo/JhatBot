@@ -5,6 +5,7 @@
 //  Created by Jason Ngo on 2025-05-20.
 //
 
+import SharedModels
 import Foundation
 
 public extension AuthService {

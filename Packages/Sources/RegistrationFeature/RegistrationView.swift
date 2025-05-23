@@ -7,6 +7,7 @@
 
 import SharedViews
 import AuthService
+import UserFeature
 import SwiftUI
 
 public struct RegistrationView: View {
@@ -15,6 +16,7 @@ public struct RegistrationView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(AuthManager.self) private var authManager
+    @Environment(UserManager.self) private var userManager
 
     public private(set) var onDidSignIn: ((_ isNewUser: Bool) -> Void)?
 
@@ -60,6 +62,7 @@ public struct RegistrationView: View {
         Task {
             do {
                 let result = try await authManager.signInWithApple()
+                try await userManager.login(auth: result.user, isNewUser: result.isNewUser)
                 onDidSignIn?(result.isNewUser)
                 dismiss.callAsFunction()
             } catch {

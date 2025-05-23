@@ -5,6 +5,7 @@
 //  Created by Jason Ngo on 2025-05-12.
 //
 
+import SharedModels
 import Foundation
 
 public struct AuthService: Sendable {
