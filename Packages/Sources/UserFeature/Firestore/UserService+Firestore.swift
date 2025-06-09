@@ -11,6 +11,12 @@ import Foundation
 
 public extension UserService {
     static let firestore = Self(
+//        getUser: { userId in
+//            try await Firestore.firestore().collection("users")
+//                .document(userId)
+//                .getDocument()
+//                .data(as: UserModel.self)
+//        },
         saveUser: { user in
             try Firestore.firestore().collection("users")
                 .document(user.userId)

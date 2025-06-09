@@ -35,13 +35,15 @@ public class UserManager {
 
     // MARK: - Dependencies
 
-    private let service: UserService
+    private let remote: UserService
+    private let local: UserRepository
 
     // MARK: - Initializers
 
-    public init(service: UserService) {
-        self.service = service
-        self.currentUser = nil
+    public init(service: UserService, local: UserRepository) {
+        self.remote = service
+        self.local = local
+        self.currentUser = local.getUser("")
     }
 
     // MARK: - Listener
@@ -51,7 +53,7 @@ public class UserManager {
         
         self.listenerTask = Task {
             do {
-                for try await value in service.addUserListener(userId, { listener in
+                for try await value in remote.addUserListener(userId, { listener in
                     self.currentUserListener = listener
                 }) {
                     self.currentUser = value
@@ -66,7 +68,7 @@ public class UserManager {
     public func removeUserListener() {
         // Remove the actual listener
         if let listener = currentUserListener {
-            service.removeUserListener(listener)
+            remote.removeUserListener(listener)
             currentUserListener = nil
         }
 
@@ -81,7 +83,7 @@ public class UserManager {
         let creationVersion = isNewUser ? Utilities.appVersion : nil
         let user = UserModel(auth: auth, creationVersion: creationVersion)
 
-        try await service.saveUser(user)
+        try await remote.saveUser(user)
         configureUserListener(userId: user.userId)
     }
 
@@ -95,7 +97,7 @@ public class UserManager {
     public func updateOnboardingStatusForCurrentUser(profileColorHex: String) async throws {
         let userId = try currentUserId
 
-        try await service.updateUser(userId, [
+        try await remote.updateUser(userId, [
             UserModel.CodingKeys.didCompleteOnboarding.stringValue: true,
             UserModel.CodingKeys.profileColorHex.stringValue: profileColorHex
         ])
@@ -103,7 +105,7 @@ public class UserManager {
 
     public func deleteCurrentUser() async throws {
         let userId = try currentUserId
-        try await service.deleteUser(userId)
+        try await remote.deleteUser(userId)
         logout()
     }
 

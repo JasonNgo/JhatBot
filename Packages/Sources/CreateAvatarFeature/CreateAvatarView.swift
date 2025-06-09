@@ -8,6 +8,7 @@
 import Shared
 import SharedModels
 import SharedViews
+import ImageProducerService
 import SwiftUI
 
 public struct CreateAvatarView: View {
@@ -15,6 +16,7 @@ public struct CreateAvatarView: View {
     // MARK: - Properties
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(ImageManager.self) private var imageManager
 
     @State private var isLoadingImage = false
     @State private var image: UIImage?
@@ -161,9 +163,22 @@ public struct CreateAvatarView: View {
     private func onCreateImageButtonTapped() {
         isLoadingImage = true
 
+        let prompt = AvatarDescriptionBuilder(
+            characterOption: characterOption,
+            characterAction: characterAction,
+            characterLocation: characterLocation
+        )
+            .characterDescription
+
         Task {
-            try? await Task.sleep(for: .seconds(2))
-            image = UIImage(systemName: "star.fill")
+            do {
+                let data = try await imageManager.generateImage(input: prompt)
+                let image = UIImage(data: data)
+
+                self.image = image
+            } catch {
+                print("Error generating image: \(error)")
+            }
 
             isLoadingImage = false
         }
@@ -181,4 +196,5 @@ public struct CreateAvatarView: View {
 
 #Preview {
     CreateAvatarView()
+        .environment(ImageManager(service: .mock))
 }

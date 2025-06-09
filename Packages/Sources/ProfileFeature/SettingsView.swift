@@ -221,12 +221,12 @@ fileprivate extension View {
     SettingsView()
         .environment(AppState())
         .environment(AuthManager(service: .mockWithAnonymousUser))
-        .environment(UserManager(service: .mock(user: .mock)))
+        .environment(UserManager(service: .mock(user: .mock), local: .fileManager))
 }
 
 #Preview("Not Anonymous") {
     SettingsView()
         .environment(AppState())
         .environment(AuthManager(service: .mockWithUser))
-        .environment(UserManager(service: .mock(user: .mock)))
+        .environment(UserManager(service: .mock(user: .mock), local: .fileManager))
 }

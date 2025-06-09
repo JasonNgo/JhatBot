@@ -13,7 +13,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/SDWebImage/SDWebImageSwiftUI", exact: "3.1.3"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.12.0")
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.12.0"),
+        .package(url: "https://github.com/MacPaw/OpenAI.git", exact: "0.4.3")
     ],
     targets: [
         .target(
@@ -97,7 +98,8 @@ let package = Package(
             dependencies: [
                 "Shared",
                 "SharedModels",
-                "SharedViews"
+                "SharedViews",
+                "ImageProducerService"
             ]
         ),
         .target(
@@ -135,6 +137,9 @@ let package = Package(
             .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
             "Shared",
             "SharedModels"
+        ]),
+        .target(name: "ImageProducerService", dependencies: [
+            .product(name: "OpenAI", package: "OpenAI")
         ])
     ]
 )

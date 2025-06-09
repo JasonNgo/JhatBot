@@ -15,22 +15,10 @@ struct JhatBotApp: App {
 
     var body: some Scene {
         WindowGroup {
-            EnvironmentBuilderView {
-                AppView()
-            }
+            AppView()
+                .environment(delegate.dependencies.authManager)
+                .environment(delegate.dependencies.userManager)
         }
-    }
-
-}
-
-struct EnvironmentBuilderView<Content: View>: View {
-
-    @ViewBuilder var content: () -> Content
-
-    var body: some View {
-        content()
-            .environment(AuthManager(service: .firebase))
-            .environment(UserManager(service: .firestore))
     }
 
 }
