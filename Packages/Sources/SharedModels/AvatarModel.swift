@@ -8,19 +8,30 @@
 import Shared
 import Foundation
 
-public struct AvatarModel: Hashable, Sendable {
+public struct AvatarModel: Hashable, Sendable, Codable, Identifiable {
+
+    // MARK: ID
+
+    public var id: String { avatarID }
+
+    // MARK: - Properties
+
     public let avatarID: String
     public let name: String?
     public let characterOption: CharacterOption?
     public let characterAction: CharacterAction?
     public let characterLocation: CharacterLocation?
-    public let profileImageURL: String?
+    public private(set) var profileImageURL: String?
     public let authorID: String?
     public let dateCreated: Date?
+
+    // MARK: - Computed
 
     public var characterDescription: String {
         AvatarDescriptionBuilder(avatar: self).characterDescription
     }
+
+    // MARK: - Initializers
 
     public init(
         avatarID: String,
@@ -41,6 +52,26 @@ public struct AvatarModel: Hashable, Sendable {
         self.authorID = authorID
         self.dateCreated = dateCreated
     }
+
+    // MARK: - Coding Keys
+
+    public enum CodingKeys: String, CodingKey {
+        case avatarID = "avatar_id"
+        case name
+        case characterOption = "character_option"
+        case characterAction = "character_action"
+        case characterLocation = "character_location"
+        case profileImageURL = "profile_image_url"
+        case authorID = "author_id"
+        case dateCreated = "date_created"
+    }
+
+    // MARK: - Mutations
+
+    public mutating func updateProfileImageURL(_ url: String) {
+        profileImageURL = url
+    }
+
 }
 
 extension AvatarModel {

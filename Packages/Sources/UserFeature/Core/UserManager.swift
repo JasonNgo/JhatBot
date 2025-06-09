@@ -37,13 +37,14 @@ public class UserManager {
 
     private let remote: UserService
     private let local: UserRepository
+    private let currentUserKey = "currentUser"
 
     // MARK: - Initializers
 
     public init(service: UserService, local: UserRepository) {
         self.remote = service
         self.local = local
-        self.currentUser = local.getUser("")
+        self.currentUser = local.getUser(currentUserKey)
     }
 
     // MARK: - Listener

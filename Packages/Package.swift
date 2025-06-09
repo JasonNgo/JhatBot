@@ -27,7 +27,8 @@ let package = Package(
                 "ChatFeature",
                 "ProfileFeature",
                 "AuthService",
-                "UserFeature"
+                "UserFeature",
+                "AvatarRepository"
             ]
         ),
         .testTarget(
@@ -140,6 +141,15 @@ let package = Package(
         ]),
         .target(name: "ImageProducerService", dependencies: [
             .product(name: "OpenAI", package: "OpenAI")
+        ]),
+        .target(name: "ImageUploader", dependencies: [
+            .product(name: "FirebaseStorage", package: "firebase-ios-sdk")
+        ]),
+        .target(name: "AvatarRepository", dependencies: [
+            .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+            "Shared",
+            "SharedModels",
+            "ImageUploader"
         ])
     ]
 )

@@ -10,6 +10,8 @@ import SharedModels
 import AuthenticationFeature
 import AuthService
 import UserFeature
+import AvatarRepository
+
 import Firebase
 import SwiftUI
 
@@ -34,12 +36,15 @@ public class AppDelegate: NSObject, UIApplicationDelegate {
 public struct Dependencies {
     public let authManager: AuthManager
     public let userManager: UserManager
+    public let avatarRepository: AvatarRepository
 
     public init(
         authManager: AuthManager = .init(service: .firebase),
-        userManager: UserManager = .init(service: .firestore, local: .fileManager)
+        userManager: UserManager = .init(service: .firestore, local: .fileManager),
+        avatarRepository: AvatarRepository = .init(avatarService: .firebase, imageUploader: .firebaseStorage)
     ) {
         self.authManager = authManager
         self.userManager = userManager
+        self.avatarRepository = avatarRepository
     }
 }

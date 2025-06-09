@@ -7,19 +7,19 @@
 
 import Foundation
 
-public enum CharacterOption: String, CaseIterable, Hashable, Sendable {
+public enum CharacterOption: String, CaseIterable, Hashable, Sendable, Codable {
     case man, woman, alien, dog, cat
 
     public static var `default`: Self { .man }
 }
 
-public enum CharacterAction: String, CaseIterable, Hashable, Sendable {
+public enum CharacterAction: String, CaseIterable, Hashable, Sendable, Codable {
     case smiling, sitting, eating, drinking, walking, shopping, studying, working, relaxing, fighting, crying
 
     public static var `default`: Self { .smiling }
 }
 
-public enum CharacterLocation: String, CaseIterable, Hashable, Sendable {
+public enum CharacterLocation: String, CaseIterable, Hashable, Sendable, Codable {
     case park, mall, museum, city, desert, forest, space
 
     public static var `default`: Self { .park }

@@ -10,30 +10,33 @@ import SharedModels
 import Foundation
 
 public extension UserService {
+
+    fileprivate static let collection = Firestore.firestore().collection("users")
+
     static let firestore = Self(
-//        getUser: { userId in
-//            try await Firestore.firestore().collection("users")
-//                .document(userId)
-//                .getDocument()
-//                .data(as: UserModel.self)
-//        },
+        getUser: { userId in
+            try await collection
+                .document(userId)
+                .getDocument()
+                .data(as: UserModel.self)
+        },
         saveUser: { user in
-            try Firestore.firestore().collection("users")
+            try collection
                 .document(user.userId)
                 .setData(from: user, merge: true)
         },
         deleteUser: { userId in
-            Firestore.firestore().collection("users")
+            collection
                 .document(userId).delete()
         },
         updateUser: { userId, updates in
-            Firestore.firestore().collection("users")
+            collection
                 .document(userId)
                 .updateData(updates)
         },
         addUserListener: { userId, onListenerAttached in
             AsyncThrowingStream { continuation in
-                let listener = Firestore.firestore().collection("users").document(userId)
+                let listener = collection.document(userId)
                     .addSnapshotListener { snapshot, error in
                         guard error == nil else {
                             continuation.finish(throwing: error)

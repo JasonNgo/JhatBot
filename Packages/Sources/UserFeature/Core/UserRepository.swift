@@ -12,6 +12,4 @@ public struct UserRepository: Sendable {
     public var getUser: @Sendable (_ userId: String) -> UserModel?
     public var saveUser: @Sendable (_ user: UserModel) throws -> Void
     public var removeUser: @Sendable (_ userId: String) throws -> Void
-
-    public var getCurrentUser: @Sendable () -> UserModel?
 }

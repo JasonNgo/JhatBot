@@ -9,6 +9,7 @@ import SharedModels
 import Foundation
 
 public struct UserService: Sendable {
+    public var getUser: @Sendable (_ userId: String) async throws -> UserModel
     public var saveUser: @Sendable (_ user: UserModel) async throws -> Void
     public var deleteUser: @Sendable (_ userId: String) async throws -> Void
     public var updateUser: @Sendable (_ userId: String, _ updates: [AnyHashable: Any]) async throws -> Void

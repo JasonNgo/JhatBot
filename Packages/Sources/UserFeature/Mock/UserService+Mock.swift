@@ -10,6 +10,13 @@ import Foundation
 
 public extension UserService {
     static func mock(user: UserModel?) -> Self {.init(
+        getUser: { userId in
+            guard let user else {
+                throw UserServiceError.noData
+            }
+
+            return user
+        },
         saveUser: { user in
 
         },

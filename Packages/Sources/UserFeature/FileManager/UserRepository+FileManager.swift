@@ -17,9 +17,6 @@ extension UserRepository {
         },
         removeUser: { userId in
             try FileManager.default.removeDocument(key: userId)
-        },
-        getCurrentUser: {
-            FileManager.default.getDocument(key: "currentUser")
         }
     )
 }
