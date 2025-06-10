@@ -30,6 +30,26 @@ extension AvatarService {
             let avatars = try snapshot.documents.map({ try $0.data(as: AvatarModel.self) })
 
             return avatars
+        },
+        getAvatarsForCategory: { category in
+            let snapshot = try await collection
+                .whereField(AvatarModel.CodingKeys.characterOption.rawValue, isEqualTo: category.rawValue)
+                .limit(to: 200)
+                .getDocuments()
+
+            let avatars = try snapshot.documents.map({ try $0.data(as: AvatarModel.self) })
+
+            return avatars
+        },
+        getAvatarsForAuthor: { authorId in
+            let snapshot = try await collection
+                .whereField(AvatarModel.CodingKeys.authorID.rawValue, isEqualTo: authorId)
+                .limit(to: 200)
+                .getDocuments()
+
+            let avatars = try snapshot.documents.map({ try $0.data(as: AvatarModel.self) })
+
+            return avatars
         }
     )
 

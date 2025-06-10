@@ -121,7 +121,8 @@ let package = Package(
             dependencies: [
                 "Shared",
                 "SharedModels",
-                "SharedViews"
+                "SharedViews",
+                "AvatarRepository"
             ]
         ),
         .target(

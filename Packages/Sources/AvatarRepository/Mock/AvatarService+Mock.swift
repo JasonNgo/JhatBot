@@ -23,10 +23,18 @@ extension AvatarService {
         },
         getPopularAvatars: {
             try await Task.sleep(for: .seconds(2))
-
             let avatars = AvatarModel.mocks
-
             return avatars
+        },
+        getAvatarsForCategory: { category in
+            try await Task.sleep(for: .seconds(2))
+            let avatars = AvatarModel.mocks
+            return avatars.filter { $0.characterOption == category }
+        },
+        getAvatarsForAuthor: { authorId in
+            try await Task.sleep(for: .seconds(2))
+            let avatars = AvatarModel.mocks
+            return avatars.filter { $0.authorID == authorId }
         }
     )
 

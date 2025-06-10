@@ -13,4 +13,6 @@ public struct AvatarService: Sendable {
 
     public var getFeaturedAvatars: @Sendable () async throws -> [AvatarModel]
     public var getPopularAvatars: @Sendable () async throws -> [AvatarModel]
+    public var getAvatarsForCategory: @Sendable (_ category: CharacterOption) async throws -> [AvatarModel]
+    public var getAvatarsForAuthor: @Sendable (_ authorId: String) async throws -> [AvatarModel]
 }

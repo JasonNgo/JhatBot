@@ -52,6 +52,6 @@ public struct Dependencies {
 
         self.authManager = AuthManager(service: .firebase)
         self.userManager = UserManager(service: .firestore, local: .fileManager)
-        self.avatarRepository = AvatarRepository(service: .firebase, imageUploader: imageUploader)
+        self.avatarRepository = AvatarRepository(service: .mock, imageUploader: imageUploader)
     }
 }

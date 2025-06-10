@@ -62,13 +62,12 @@ public struct ExploreView: View {
             })
             .navigationDestination(for: Route.self) { newValue in
                 switch newValue {
-                case let .chat(avatar):
+                case let .chat(_):
                     MessageView()
                 case let .category(category):
                     CategoryListView(
                         category: category,
-                        imageName: Constants.randomImageURLString,
-                        avatars: AvatarModel.mocks
+                        imageName: Constants.randomImageURLString
                     )
                 }
             }

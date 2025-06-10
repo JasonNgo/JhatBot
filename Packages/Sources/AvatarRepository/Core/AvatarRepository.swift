@@ -54,4 +54,12 @@ final public class AvatarRepository {
         try await service.getPopularAvatars()
     }
 
+    public func getAvatarsForCategory(_ category: CharacterOption) async throws -> [AvatarModel] {
+        try await service.getAvatarsForCategory(category)
+    }
+
+    public func getAvatarsForAuthor(_ authorId: String) async throws -> [AvatarModel] {
+        try await service.getAvatarsForAuthor(authorId)
+    }
+
 }
