@@ -10,30 +10,30 @@ import Foundation
 
 public extension UserService {
     static func mock(user: UserModel?) -> Self {.init(
-        getUser: { userId in
+        getUser: { _ in
             guard let user else {
                 throw UserServiceError.noData
             }
 
             return user
         },
-        saveUser: { user in
+        saveUser: { _ in
 
         },
-        deleteUser: { userId in
+        deleteUser: { _ in
 
         },
-        updateUser: { userId, updates in
+        updateUser: { _, _ in
 
         },
-        addUserListener: { userId, onListenerAttached in
+        addUserListener: { _, _ in
             AsyncThrowingStream { continuation in
                 if let currentUser = user {
                     continuation.yield(currentUser)
                 }
             }
         },
-        removeUserListener: { listener in
+        removeUserListener: { _ in
 
         }
     )}

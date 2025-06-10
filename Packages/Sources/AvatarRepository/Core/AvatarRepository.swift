@@ -16,16 +16,16 @@ final public class AvatarRepository {
 
     // MARK: - Dependencies
 
-    private let avatarService: AvatarService
+    private let service: AvatarService
     private let imageUploader: ImageUploader
 
     // MARK: - Initializers
 
     public init(
-        avatarService: AvatarService,
+        service: AvatarService,
         imageUploader: ImageUploader
     ) {
-        self.avatarService = avatarService
+        self.service = service
         self.imageUploader = imageUploader
     }
 
@@ -34,24 +34,24 @@ final public class AvatarRepository {
     public func createAvatar(avatar: AvatarModel, imageData: Data) async throws {
         // upload the image
         let path = "avatars/\(avatar.avatarID)"
-        let imageURL = try await imageUploader.uploadImage(imageData, path)
+        let imageURL = try await imageUploader.uploadImage(data: imageData, path: path)
 
         // update the avatar model with the new image url
         var avatar = avatar
         avatar.updateProfileImageURL(imageURL.absoluteString)
 
         // create the avatar
-        try await avatarService.createAvatar(avatar)
+        try await service.createAvatar(avatar)
     }
 
     // MARK: Fetching
 
     public func getFeaturedAvatars() async throws -> [AvatarModel] {
-        try await avatarService.getFeaturedAvatars()
+        try await service.getFeaturedAvatars()
     }
 
     public func getPopularAvatars() async throws -> [AvatarModel] {
-        try await avatarService.getPopularAvatars()
+        try await service.getPopularAvatars()
     }
 
 }

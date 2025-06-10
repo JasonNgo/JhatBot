@@ -1,10 +1,21 @@
 import Foundation
+import Observation
 
-public struct ImageUploader: Sendable {
+@MainActor
+@Observable
+public class ImageUploader {
+
+    private let service: ImageUploaderService
+
+    public init(service: ImageUploaderService) {
+        self.service = service
+    }
 
     /// Upload the given data at the specified path.
     /// Note:
     ///   - This function expects data to be in a valid jpeg format
-    public var uploadImage: @Sendable (_ data: Data, _ path: String) async throws -> URL
+    public func uploadImage(data: Data, path: String) async throws -> URL {
+        try await service.uploadImage(data, path)
+    }
 
 }

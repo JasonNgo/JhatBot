@@ -8,7 +8,7 @@
 import FirebaseStorage
 import Foundation
 
-extension ImageUploader {
+extension ImageUploaderService {
     static public let firebaseStorage = Self(
         uploadImage: { data, path in
             let name = "\(path).jpg"
@@ -19,7 +19,7 @@ extension ImageUploader {
 
             let returnedMetadata = try await reference.putDataAsync(data, metadata: metadata)
 
-            guard let returnedPath = returnedMetadata.path, let _ = URL(string: returnedPath) else {
+            guard let returnedPath = returnedMetadata.path, URL(string: returnedPath) != nil else {
                 throw URLError(.badURL)
             }
 

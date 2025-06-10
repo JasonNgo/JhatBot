@@ -41,7 +41,7 @@ public class AuthManager {
         }
     }
 
-    func getAuthId() throws -> String {
+    public func getAuthId() throws -> String {
         guard let id = auth?.uid else {
             throw AuthManagerError.notSignedIn
         }

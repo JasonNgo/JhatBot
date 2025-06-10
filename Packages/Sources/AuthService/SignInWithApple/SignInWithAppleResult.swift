@@ -39,7 +39,7 @@ public struct SignInWithAppleResult: Sendable {
         else {
             return nil
         }
-
+        
         let token = String(decoding: appleIDToken, as: UTF8.self)
 
         self.token = token

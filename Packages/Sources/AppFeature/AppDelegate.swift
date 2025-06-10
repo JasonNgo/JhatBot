@@ -11,6 +11,8 @@ import AuthenticationFeature
 import AuthService
 import UserFeature
 import AvatarRepository
+import ImageGenerator
+import ImageUploader
 
 import Firebase
 import SwiftUI
@@ -24,8 +26,8 @@ public class AppDelegate: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
 
-        dependencies = Dependencies()
         FirebaseApp.configure()
+        dependencies = Dependencies()
 
         return true
     }
@@ -34,17 +36,22 @@ public class AppDelegate: NSObject, UIApplicationDelegate {
 
 @MainActor
 public struct Dependencies {
+
+    public let imageGenerator: ImageGenerator
+    public let imageUploader: ImageUploader
+
     public let authManager: AuthManager
     public let userManager: UserManager
     public let avatarRepository: AvatarRepository
 
     public init(
-        authManager: AuthManager = .init(service: .firebase),
-        userManager: UserManager = .init(service: .firestore, local: .fileManager),
-        avatarRepository: AvatarRepository = .init(avatarService: .firebase, imageUploader: .firebaseStorage)
+
     ) {
-        self.authManager = authManager
-        self.userManager = userManager
-        self.avatarRepository = avatarRepository
+        self.imageGenerator = ImageGenerator(service: .mock)
+        self.imageUploader = ImageUploader(service: .mock)
+
+        self.authManager = AuthManager(service: .firebase)
+        self.userManager = UserManager(service: .firestore, local: .fileManager)
+        self.avatarRepository = AvatarRepository(service: .firebase, imageUploader: imageUploader)
     }
 }

@@ -15,7 +15,7 @@ extension FileManager {
     ) throws {
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
 
-        guard let _ = urls.first else {
+        guard urls.first != nil else {
             throw NSError(domain: "FileManagerError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Directory not found"])
         }
 
@@ -28,7 +28,7 @@ extension FileManager {
     public func getDocument<T: Codable>(key: String) -> T? {
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
 
-        guard let _ = urls.first else {
+        guard urls.first != nil else {
             return nil
         }
 
@@ -50,7 +50,7 @@ extension FileManager {
     ) throws {
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
 
-        guard let dirURL = urls.first else {
+        guard urls.first != nil else {
             throw NSError(domain: "FileManagerError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Directory not found"])
         }
 

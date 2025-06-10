@@ -7,8 +7,9 @@
 
 import Foundation
 
-public extension ImageProducer {
-    static let mock = Self(
+extension ImageGeneratorService {
+
+    public static let mock = Self(
         generateImage: { input in
             try await Task.sleep(for: .seconds(3))
             let marker = "MOCK_IMAGE".data(using: .utf8)!
@@ -16,4 +17,5 @@ public extension ImageProducer {
             return marker + inputData
         }
     )
+
 }

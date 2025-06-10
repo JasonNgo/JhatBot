@@ -10,6 +10,7 @@ import SharedModels
 import SharedViews
 import MessageFeature
 import CategoryFeature
+import AvatarRepository
 import SwiftUI
 
 public struct ExploreView: View {
@@ -21,9 +22,11 @@ public struct ExploreView: View {
 
     // MARK: - Properties
 
-    @State private var featureAvatars: [AvatarModel]
-    @State private var categories: [CharacterOption]
-    @State private var popularAvatars: [AvatarModel]
+    @Environment(AvatarRepository.self) private var avatarRepository
+
+    @State private var featureAvatars: [AvatarModel] = []
+    @State private var categories: [CharacterOption] = CharacterOption.allCases
+    @State private var popularAvatars: [AvatarModel] = []
 
     @State private var selectedAvatar: AvatarModel?
     @State private var selectedCategory: CharacterOption?
@@ -32,25 +35,31 @@ public struct ExploreView: View {
 
     // MARK: - Initializers
 
-    public init(
-        featuredAvatars: [AvatarModel],
-        categories: [CharacterOption],
-        popularAvatars: [AvatarModel]
-    ) {
-        self.featureAvatars = featuredAvatars
-        self.categories = categories
-        self.popularAvatars = popularAvatars
-    }
+    public init() {}
 
     // MARK: - Body
 
     public var body: some View {
         NavigationStack(path: $path) {
             List {
-                featuredAvatarsSection
-                categorySection
-                popularSection
+                if !featureAvatars.isEmpty {
+                    featuredAvatarsSection
+                }
+
+                if !popularAvatars.isEmpty {
+                    categorySection
+                    popularSection
+                }
             }
+            .task {
+                await loadFeaturedAvatars()
+            }
+            .task {
+                await loadPopularAvatars()
+            }
+            .refreshable(action: {
+                await loadData()
+            })
             .navigationDestination(for: Route.self) { newValue in
                 switch newValue {
                 case let .chat(avatar):
@@ -131,6 +140,30 @@ public struct ExploreView: View {
         .removeListRowFormatting()
     }
 
+    // MARK: - Data
+
+    private func loadData() async {
+        await loadFeaturedAvatars()
+        await loadPopularAvatars()
+    }
+
+    private func loadFeaturedAvatars() async {
+        print("fetching featured avatars")
+        do {
+            self.featureAvatars = try await avatarRepository.getPopularAvatars()
+        } catch {
+            print("Error loading featured avatars: \(error)")
+        }
+    }
+
+    private func loadPopularAvatars() async {
+        do {
+            self.popularAvatars = try await avatarRepository.getPopularAvatars()
+        } catch {
+            print("Error loading popular avatars: \(error)")
+        }
+    }
+
     // MARK: - Actions
 
     private func onAvatarSelected(_ avatar: AvatarModel) {
@@ -140,14 +173,12 @@ public struct ExploreView: View {
     private func onCategorySelected(_ category: CharacterOption) {
         path.append(.category(category))
     }
+
 }
 
 // MARK: - Previews
 
 #Preview {
-    ExploreView(
-        featuredAvatars: AvatarModel.mocks,
-        categories: CharacterOption.allCases,
-        popularAvatars: AvatarModel.mocks
-    )
+    ExploreView()
+        .environment(AvatarRepository(service: .mock, imageUploader: .init(service: .mock)))
 }

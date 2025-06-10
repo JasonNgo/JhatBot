@@ -100,7 +100,10 @@ let package = Package(
                 "Shared",
                 "SharedModels",
                 "SharedViews",
-                "ImageProducerService"
+                "AuthService",
+                "ImageGenerator",
+                "ImageUploader",
+                "AvatarRepository"
             ]
         ),
         .target(
@@ -139,17 +142,18 @@ let package = Package(
             "Shared",
             "SharedModels"
         ]),
-        .target(name: "ImageProducerService", dependencies: [
-            .product(name: "OpenAI", package: "OpenAI")
-        ]),
-        .target(name: "ImageUploader", dependencies: [
-            .product(name: "FirebaseStorage", package: "firebase-ios-sdk")
-        ]),
         .target(name: "AvatarRepository", dependencies: [
             .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
             "Shared",
             "SharedModels",
             "ImageUploader"
+        ]),
+        // Standalone Components
+        .target(name: "ImageGenerator", dependencies: [
+            .product(name: "OpenAI", package: "OpenAI")
+        ]),
+        .target(name: "ImageUploader", dependencies: [
+            .product(name: "FirebaseStorage", package: "firebase-ios-sdk")
         ])
     ]
 )

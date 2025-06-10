@@ -16,8 +16,11 @@ struct JhatBotApp: App {
     var body: some Scene {
         WindowGroup {
             AppView()
-                .environment(delegate.dependencies.authManager)
+                .environment(delegate.dependencies.imageGenerator)
+                .environment(delegate.dependencies.imageUploader)
+                .environment(delegate.dependencies.avatarRepository)
                 .environment(delegate.dependencies.userManager)
+                .environment(delegate.dependencies.authManager)
         }
     }
 

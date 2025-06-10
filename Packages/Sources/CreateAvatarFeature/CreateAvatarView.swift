@@ -8,7 +8,9 @@
 import Shared
 import SharedModels
 import SharedViews
-import ImageProducerService
+import AuthService
+import AvatarRepository
+import ImageGenerator
 import SwiftUI
 
 public struct CreateAvatarView: View {
@@ -16,13 +18,15 @@ public struct CreateAvatarView: View {
     // MARK: - Properties
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(ImageManager.self) private var imageManager
+    @Environment(AuthManager.self) private var authManager
+    @Environment(AvatarRepository.self) private var avatarRepository
+    @Environment(ImageGenerator.self) private var imageGenerator
 
     @State private var isLoadingImage = false
     @State private var image: UIImage?
+    @State private var imageData: Data?
 
     @State private var isLoading = false
-
     @State private var avatarName: String = ""
     @State private var characterOption: CharacterOption = .default
     @State private var characterAction: CharacterAction = .default
@@ -172,10 +176,11 @@ public struct CreateAvatarView: View {
 
         Task {
             do {
-                let data = try await imageManager.generateImage(input: prompt)
+                let data = try await imageGenerator.generateImage(prompt: prompt)
                 let image = UIImage(data: data)
 
                 self.image = image
+                self.imageData = data
             } catch {
                 print("Error generating image: \(error)")
             }
@@ -185,9 +190,28 @@ public struct CreateAvatarView: View {
     }
 
     private func onActionButtonTapped() async {
+        guard let imageData else { return }
+
         isLoading = true
 
-        try? await Task.sleep(for: .seconds(2))
+        Task {
+            do {
+                let authorID = try authManager.getAuthId()
+
+                let avatar = AvatarModel(
+                    avatarID: UUID().uuidString,
+                    name: avatarName,
+                    characterOption: characterOption,
+                    characterAction: characterAction,
+                    characterLocation: characterLocation,
+                    profileImageURL: nil,
+                    authorID: authorID,
+                    dateCreated: .now
+                )
+
+                try await avatarRepository.createAvatar(avatar: avatar, imageData: imageData)
+            }
+        }
 
         isLoading = false
     }
@@ -196,5 +220,5 @@ public struct CreateAvatarView: View {
 
 #Preview {
     CreateAvatarView()
-        .environment(ImageManager(service: .mock))
+        .environment(ImageGenerator(service: .mock))
 }

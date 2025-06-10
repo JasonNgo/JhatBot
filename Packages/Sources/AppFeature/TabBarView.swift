@@ -16,7 +16,7 @@ public struct TabBarView: View {
 
     public var body: some View {
         TabView {
-            ExploreView(featuredAvatars: AvatarModel.mocks, categories: CharacterOption.allCases, popularAvatars: AvatarModel.mocks)
+            ExploreView()
                 .tabItem {
                     Label("Explore", systemImage: "eyes")
                 }
