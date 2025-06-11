@@ -8,6 +8,7 @@
 import Shared
 import SharedModels
 import SharedViews
+import AvatarRepository
 import SwiftUI
 
 public struct ChatListView: View {
@@ -16,6 +17,10 @@ public struct ChatListView: View {
 
     @State private var recentAvatars: [AvatarModel] = AvatarModel.mocks
     @State private var chats: [ChatModel] = ChatModel.mocks
+
+    // MARK: - Dependencies
+
+    @Environment(AvatarRepository.self) private var avatarRepository
 
     // MARK: - Initializers
 
@@ -86,16 +91,32 @@ public struct ChatListView: View {
                     )
                 }
             }
+            .task {
+                await loadRecentAvatars()
+            }
         }
     }
+
+    // MARK: - Actions
+
+    private func loadRecentAvatars() async {
+        do {
+            self.recentAvatars = try await avatarRepository.getRecentAvatars()
+        } catch {
+            print("Error fetching recent avatars: \(error)")
+        }
+    }
+
 }
 
 // MARK: - Previews
 
 #Preview {
     ChatListView(chats: ChatModel.mocks)
+        .environment(AvatarRepository(service: .mock, persistence: .mock, imageUploader: .init(service: .mock)))
 }
 
 #Preview("ChatList - Empty State") {
     ChatListView(chats: [])
+        .environment(AvatarRepository(service: .mock, persistence: .mock, imageUploader: .init(service: .mock)))
 }

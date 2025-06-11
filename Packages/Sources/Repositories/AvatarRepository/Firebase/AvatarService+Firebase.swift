@@ -19,6 +19,11 @@ extension AvatarService {
                 .document(avatar.avatarID)
                 .setData(from: avatar, merge: true)
         },
+        getAvatar: { id in
+            try await collection
+                .document(id)
+                .getDocument(as: AvatarModel.self)
+        },
         getFeaturedAvatars: {
             let snapshot = try await collection.limit(to: 50).getDocuments()
             let avatars = try snapshot.documents.map({ try $0.data(as: AvatarModel.self) })

@@ -17,15 +17,18 @@ final public class AvatarRepository {
     // MARK: - Dependencies
 
     private let service: AvatarService
+    private let persistence: AvatarPersistence
     private let imageUploader: ImageUploader
 
     // MARK: - Initializers
 
     public init(
         service: AvatarService,
+        persistence: AvatarPersistence,
         imageUploader: ImageUploader
     ) {
         self.service = service
+        self.persistence = persistence
         self.imageUploader = imageUploader
     }
 
@@ -44,6 +47,14 @@ final public class AvatarRepository {
         try await service.createAvatar(avatar)
     }
 
+    public func getAvatar(id: String) async throws -> AvatarModel {
+        try await service.getAvatar(id)
+    }
+
+    public func addRecentAvatar(_ avatar: AvatarModel) async throws {
+        try await persistence.addRecentAvatar(avatar)
+    }
+
     // MARK: Fetching
 
     public func getFeaturedAvatars() async throws -> [AvatarModel] {
@@ -52,6 +63,10 @@ final public class AvatarRepository {
 
     public func getPopularAvatars() async throws -> [AvatarModel] {
         try await service.getPopularAvatars()
+    }
+
+    public func getRecentAvatars() async throws -> [AvatarModel] {
+        try await persistence.getRecentAvatars()
     }
 
     public func getAvatarsForCategory(_ category: CharacterOption) async throws -> [AvatarModel] {

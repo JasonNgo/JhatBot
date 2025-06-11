@@ -10,6 +10,7 @@ import Foundation
 
 public struct AvatarService: Sendable {
     public var createAvatar: @Sendable (_ avatar: AvatarModel) async throws -> Void
+    public var getAvatar: @Sendable (_ id: String) async throws -> AvatarModel  
 
     public var getFeaturedAvatars: @Sendable () async throws -> [AvatarModel]
     public var getPopularAvatars: @Sendable () async throws -> [AvatarModel]

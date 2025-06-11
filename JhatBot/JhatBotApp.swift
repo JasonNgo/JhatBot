@@ -1,12 +1,5 @@
-//
-//  JhatBotApp.swift
-//  JhatBot
-//
-//  Created by Jason Ngo on 2025-04-22.
-//
-
-import SwiftUI
 import AppFeature
+import SwiftUI
 
 @main
 struct JhatBotApp: App {
@@ -19,8 +12,8 @@ struct JhatBotApp: App {
                 .environment(delegate.dependencies.imageGenerator)
                 .environment(delegate.dependencies.imageUploader)
                 .environment(delegate.dependencies.avatarRepository)
-                .environment(delegate.dependencies.userManager)
-                .environment(delegate.dependencies.authManager)
+                .environment(delegate.dependencies.userStore)
+                .environment(delegate.dependencies.authStore)
         }
     }
 

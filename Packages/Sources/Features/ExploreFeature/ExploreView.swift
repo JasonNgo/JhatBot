@@ -62,8 +62,8 @@ public struct ExploreView: View {
             })
             .navigationDestination(for: Route.self) { newValue in
                 switch newValue {
-                case let .chat(_):
-                    MessageView()
+                case let .chat(avatar):
+                    MessageView(avatarId: avatar.avatarID)
                 case let .category(category):
                     CategoryListView(
                         category: category,
@@ -132,6 +132,9 @@ public struct ExploreView: View {
                     subtitle: avatar.characterDescription,
                     imageURL: avatar.profileImageURL
                 )
+                .anyButton {
+                    onAvatarSelected(avatar)
+                }
             }
         } header: {
             Text("Popular")
@@ -179,5 +182,5 @@ public struct ExploreView: View {
 
 #Preview {
     ExploreView()
-        .environment(AvatarRepository(service: .mock, imageUploader: .init(service: .mock)))
+        .environment(AvatarRepository(service: .mock, persistence: .mock, imageUploader: .init(service: .mock)))
 }

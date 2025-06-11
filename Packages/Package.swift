@@ -66,7 +66,8 @@ let package = Package(
             dependencies: [
                 "Shared",
                 "SharedModels",
-                "SharedViews"
+                "SharedViews",
+                "AvatarRepository"
             ],
             path: "Sources/Features/ChatFeature"
         ),

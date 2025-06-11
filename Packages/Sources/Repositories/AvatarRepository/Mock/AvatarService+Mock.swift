@@ -14,6 +14,10 @@ extension AvatarService {
         createAvatar: { _ in
             try await Task.sleep(for: .seconds(2))
         },
+        getAvatar: { id in
+            try await Task.sleep(for: .seconds(2))
+            return AvatarModel.mock
+        },
         getFeaturedAvatars: {
             try await Task.sleep(for: .seconds(2))
 

@@ -13,7 +13,7 @@ extension ImageUploaderService {
 
     /// A no-op implementation of `ImageUploaderService`
     static public let noop = Self(
-        uploadImage: {
+        uploadImage: { _, _ in
             fatalError("No-op implementation of `ImageUploaderService.uploadImage`")
         }
     )

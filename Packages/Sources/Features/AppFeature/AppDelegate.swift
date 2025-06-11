@@ -39,6 +39,7 @@ public struct Dependencies {
 
     public let imageGenerator: ImageGenerator
     public let imageUploader: ImageUploader
+    public let localAvatarPersistence: AvatarPersistence
 
     public let authStore: AuthStore
     public let userStore: UserStore
@@ -49,9 +50,11 @@ public struct Dependencies {
     ) {
         self.imageGenerator = ImageGenerator(service: .mock)
         self.imageUploader = ImageUploader(service: .mock)
+        self.localAvatarPersistence = AvatarPersistence.swiftData
 
         self.authStore = AuthStore(service: .firebase)
         self.userStore = UserStore(service: .firestore, local: .fileManager)
-        self.avatarRepository = AvatarRepository(service: .mock, imageUploader: imageUploader)
+        self.avatarRepository = AvatarRepository(service: .mock, persistence: localAvatarPersistence, imageUploader: imageUploader)
     }
+
 }

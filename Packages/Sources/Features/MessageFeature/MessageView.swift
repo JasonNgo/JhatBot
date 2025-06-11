@@ -10,6 +10,8 @@ import SharedModels
 import SharedViews
 import ChatFeature
 import ProfileFeature
+import AvatarRepository
+
 import SwiftUI
 
 public struct MessageView: View {
@@ -17,7 +19,7 @@ public struct MessageView: View {
     // MARK: - Properties
 
     @State private var messages: [ChatMessageModel] = ChatMessageModel.mocks
-    @State private var avatar: AvatarModel? = .mock
+    @State private var avatar: AvatarModel?
     @State private var currentUser: UserModel? = .mock
 
     @State private var text: String = ""
@@ -27,10 +29,16 @@ public struct MessageView: View {
     @State private var showChatSettings: AppAlert?
     @State private var showProfileModal: AvatarModel?
 
+    // MARK: - Dependencies
+
+    @Environment(AvatarRepository.self) private var avatarRepository
+
+    private let avatarId: String
+
     // MARK: - Initializers
 
-    public init() {
-
+    public init(avatarId: String) {
+        self.avatarId = avatarId
     }
 
     // MARK: - Body
@@ -66,6 +74,9 @@ public struct MessageView: View {
                 .padding(40)
                 .transition(.slide)
             }
+        }
+        .task {
+            await loadAvatar()
         }
     }
 
@@ -124,6 +135,17 @@ public struct MessageView: View {
 
     // MARK: - Actions
 
+    private func loadAvatar() async {
+        do {
+            self.avatar = try await avatarRepository.getAvatar(id: avatarId)
+            if let avatar = self.avatar {
+                try? await avatarRepository.addRecentAvatar(avatar)
+            }
+        } catch {
+            print("Error fetching avatar with id: \(avatarId)")
+        }
+    }
+
     private func onChatSettingsButtonTapped() {
         showChatSettings = AppAlert(
             title: nil,
@@ -137,7 +159,8 @@ public struct MessageView: View {
 
                     }
                 })
-            })
+            }
+        )
     }
 
     private func onChatMessageProfileImageTapped() {
@@ -169,6 +192,7 @@ public struct MessageView: View {
 
 #Preview {
     NavigationStack {
-        MessageView()
+        MessageView(avatarId: AvatarModel.mock.avatarID)
+            .environment(AvatarRepository(service: .mock, persistence: .mock, imageUploader: .init(service: .mock)))
     }
 }
