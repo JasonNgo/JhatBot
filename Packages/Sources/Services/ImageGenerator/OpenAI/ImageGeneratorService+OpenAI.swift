@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  Main
-//
-//  Created by Jason Ngo on 2025-06-09.
-//
-
 import OpenAI
 import Foundation
 
@@ -12,6 +5,7 @@ extension ImageGeneratorService {
 
     fileprivate static let openAIClient = OpenAI(apiToken: "")
 
+    /// A concrete implementation of `ImageGeneratorService` using OpenAI's API
     public static let openAI = Self(
         generateImage: { input in
             let query = ImagesQuery(

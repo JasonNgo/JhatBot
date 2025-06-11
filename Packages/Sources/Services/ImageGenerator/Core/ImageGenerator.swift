@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  Main
-//
-//  Created by Jason Ngo on 2025-06-09.
-//
-
 import Foundation
 import Observation
 
@@ -12,13 +5,20 @@ import Observation
 @Observable
 public class ImageGenerator {
 
+    // MARK: - Dependencies
+
     private let service: ImageGeneratorService
+
+    // MARK: - Initializers
 
     public init(service: ImageGeneratorService) {
         self.service = service
     }
 
+    // MARK:
+
     public func generateImage(prompt: String) async throws -> Data {
         try await service.generateImage(prompt)
     }
+
 }

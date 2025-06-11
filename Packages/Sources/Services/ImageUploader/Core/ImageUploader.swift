@@ -5,7 +5,11 @@ import Observation
 @Observable
 public class ImageUploader {
 
+    // MARK: - Dependencies
+
     private let service: ImageUploaderService
+
+    // MARK: - Initializers
 
     public init(service: ImageUploaderService) {
         self.service = service

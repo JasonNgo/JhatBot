@@ -1,14 +1,9 @@
-//
-//  File.swift
-//  Main
-//
-//  Created by Jason Ngo on 2025-06-09.
-//
-
 import FirebaseStorage
 import Foundation
 
 extension ImageUploaderService {
+
+    /// A concrete implementation of `ImageUploaderService` using Firebase Storage.
     static public let firebaseStorage = Self(
         uploadImage: { data, path in
             let name = "\(path).jpg"
@@ -26,4 +21,5 @@ extension ImageUploaderService {
             return try await reference.downloadURL()
         }
     )
+
 }

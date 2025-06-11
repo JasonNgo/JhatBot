@@ -1,13 +1,8 @@
-//
-//  File.swift
-//  Main
-//
-//  Created by Jason Ngo on 2025-06-09.
-//
-
 import Foundation
 
 extension ImageUploaderService {
+
+    /// A mock implementation of `ImageUploaderService`
     static public let mock = Self(
         uploadImage: { data, path in
             try await Task.sleep(for: .seconds(2))
@@ -15,4 +10,12 @@ extension ImageUploaderService {
             return URL(string: "")!
         }
     )
+
+    /// A no-op implementation of `ImageUploaderService`
+    static public let noop = Self(
+        uploadImage: {
+            fatalError("No-op implementation of `ImageUploaderService.uploadImage`")
+        }
+    )
+
 }

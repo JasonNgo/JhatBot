@@ -1,5 +1,5 @@
 import Foundation
 
-enum ImageGeneratorError: Error {
+public enum ImageGeneratorError: Error {
     case unableToGenerateImage
 }
