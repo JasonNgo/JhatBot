@@ -1,13 +1,6 @@
-//
-//  File.swift
-//  Main
-//
-//  Created by Jason Ngo on 2025-05-23.
-//
-
 import Foundation
 
-public enum UserManagerError: LocalizedError {
+public enum UserStoreError: LocalizedError {
     case noData
     case noUserId
 

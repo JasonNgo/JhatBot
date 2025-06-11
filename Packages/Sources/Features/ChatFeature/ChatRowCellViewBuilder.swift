@@ -6,6 +6,7 @@
 //
 
 import SharedModels
+import SharedViews
 import SwiftUI
 
 public struct ChatRowCellViewBuilder: View {

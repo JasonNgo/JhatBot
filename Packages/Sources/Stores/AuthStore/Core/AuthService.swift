@@ -19,13 +19,3 @@ public struct AuthService: Sendable {
         _ onListenerAttached: (any NSObjectProtocol) -> Void
     ) -> AsyncStream<UserAuthInfo?>
 }
-
-#if canImport(SwiftUI)
-
-import SwiftUI
-
-public extension EnvironmentValues {
-    @Entry var authService: AuthService = .mockWithUser
-}
-
-#endif

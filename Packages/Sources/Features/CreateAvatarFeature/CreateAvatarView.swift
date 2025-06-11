@@ -8,7 +8,7 @@
 import Shared
 import SharedModels
 import SharedViews
-import AuthService
+import AuthStore
 import AvatarRepository
 import ImageGenerator
 import SwiftUI
@@ -18,7 +18,7 @@ public struct CreateAvatarView: View {
     // MARK: - Properties
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(AuthManager.self) private var authManager
+    @Environment(AuthStore.self) private var authStore
     @Environment(AvatarRepository.self) private var avatarRepository
     @Environment(ImageGenerator.self) private var imageGenerator
 
@@ -196,7 +196,7 @@ public struct CreateAvatarView: View {
 
         Task {
             do {
-                let authorID = try authManager.getAuthId()
+                let authorID = try authStore.getAuthId()
 
                 let avatar = AvatarModel(
                     avatarID: UUID().uuidString,

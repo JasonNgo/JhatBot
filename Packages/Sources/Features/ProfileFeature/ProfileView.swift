@@ -9,14 +9,14 @@ import Shared
 import SharedModels
 import SharedViews
 import CreateAvatarFeature
-import UserFeature
+import UserStore
 import SwiftUI
 
 public struct ProfileView: View {
 
     // MARK: - Properties
 
-    @Environment(UserManager.self) private var userManager
+    @Environment(UserStore.self) private var userStore
 
     @State private var currentUser: UserModel?
     @State private var avatars: [AvatarModel] = []
@@ -162,7 +162,7 @@ public struct ProfileView: View {
     }
 
     private func loadData() async {
-        self.currentUser = userManager.currentUser
+        self.currentUser = userStore.currentUser
 
         try? await Task.sleep(for: .seconds(3))
         isLoading = false
@@ -175,5 +175,5 @@ public struct ProfileView: View {
 
 #Preview {
     ProfileView()
-        .environment(UserManager(service: .mock(user: .mock), local: .fileManager))
+        .environment(UserStore(service: .mock(user: .mock), local: .fileManager))
 }

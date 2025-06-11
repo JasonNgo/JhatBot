@@ -17,6 +17,7 @@ let package = Package(
         .package(url: "https://github.com/MacPaw/OpenAI.git", exact: "0.4.3")
     ],
     targets: [
+        // Features
         .target(
             name: "AppFeature",
             dependencies: [
@@ -26,16 +27,11 @@ let package = Package(
                 "ExploreFeature",
                 "ChatFeature",
                 "ProfileFeature",
-                "AuthService",
-                "UserFeature",
+                "AuthStore",
+                "UserStore",
                 "AvatarRepository"
-            ]
-        ),
-        .testTarget(
-            name: "AppFeatureTests",
-            dependencies: [
-
-            ]
+            ],
+            path: "Sources/Features/AppFeature"
         ),
         .target(
             name: "AuthenticationFeature",
@@ -43,15 +39,17 @@ let package = Package(
                 "Shared",
                 "OnboardingFeature",
                 "RegistrationFeature"
-            ]
+            ],
+            path: "Sources/Features/AuthenticationFeature"
         ),
         .target(
             name: "OnboardingFeature",
             dependencies: [
                 "Shared",
                 "SharedModels",
-                "UserFeature"
-            ]
+                "UserStore"
+            ],
+            path: "Sources/Features/OnboardingFeature"
         ),
         .target(
             name: "ExploreFeature",
@@ -60,14 +58,17 @@ let package = Package(
                 "SharedViews",
                 "MessageFeature",
                 "CategoryFeature"
-            ]
+            ],
+            path: "Sources/Features/ExploreFeature"
         ),
         .target(
             name: "ChatFeature",
             dependencies: [
                 "Shared",
-                "SharedModels"
-            ]
+                "SharedModels",
+                "SharedViews"
+            ],
+            path: "Sources/Features/ChatFeature"
         ),
         .target(
             name: "ProfileFeature",
@@ -77,22 +78,18 @@ let package = Package(
                 "SharedViews",
                 "RegistrationFeature",
                 "CreateAvatarFeature",
-                "AuthService"
-            ]
-        ),
-        .target(
-            name: "Shared",
-            dependencies: [
-                .product(name: "SDWebImageSwiftUI", package: "SDWebImageSwiftUI")
-            ]
+                "AuthStore"
+            ],
+            path: "Sources/Features/ProfileFeature"
         ),
         .target(
             name: "RegistrationFeature",
             dependencies: [
                 "SharedViews",
-                "AuthService",
-                "UserFeature"
-            ]
+                "AuthStore",
+                "UserStore"
+            ],
+            path: "Sources/Features/RegistrationFeature"
         ),
         .target(
             name: "CreateAvatarFeature",
@@ -100,11 +97,12 @@ let package = Package(
                 "Shared",
                 "SharedModels",
                 "SharedViews",
-                "AuthService",
+                "AuthStore",
                 "ImageGenerator",
                 "ImageUploader",
                 "AvatarRepository"
-            ]
+            ],
+            path: "Sources/Features/CreateAvatarFeature"
         ),
         .target(
             name: "MessageFeature",
@@ -114,7 +112,8 @@ let package = Package(
                 "SharedViews",
                 "ChatFeature",
                 "ProfileFeature"
-            ]
+            ],
+            path: "Sources/Features/MessageFeature"
         ),
         .target(
             name: "CategoryFeature",
@@ -123,39 +122,62 @@ let package = Package(
                 "SharedModels",
                 "SharedViews",
                 "AvatarRepository"
-            ]
+            ],
+            path: "Sources/Features/CategoryFeature"
+        ),
+
+        // Repositories
+        .target(
+            name: "AvatarRepository",
+            dependencies: [
+                "Shared",
+                "SharedModels",
+                "ImageUploader",
+                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk")
+            ],
+            path: "Sources/Repositories/AvatarRepository"
         ),
         .target(
-            name: "SharedModels",
+            name: "UserStore",
             dependencies: [
-                "Shared"
-            ]
+                "Shared",
+                "SharedModels",
+                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk")
+            ],
+            path: "Sources/Stores/UserStore"
         ),
+
+        // Services
+        .target(
+            name: "AuthStore",
+            dependencies: [
+                "SharedModels",
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
+            ],
+            path: "Sources/Stores/AuthStore"
+        ),
+        .target(
+            name: "ImageGenerator",
+            dependencies: [
+                .product(name: "OpenAI", package: "OpenAI")
+            ],
+            path: "Sources/Services/ImageGenerator"
+        ),
+        .target(
+            name: "ImageUploader",
+            dependencies: [
+                .product(name: "FirebaseStorage", package: "firebase-ios-sdk")
+            ],
+            path: "Sources/Services/ImageUploader"
+        ),
+
+        .target(name: "Shared", dependencies: []),
+        .target(name: "SharedModels", dependencies: ["Shared"]),
         .target(name: "SharedViews", dependencies: [
-            "Shared"
-        ]),
-        .target(name: "AuthService", dependencies: [
-            .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-            "SharedModels"
-        ]),
-        .target(name: "UserFeature", dependencies: [
-            .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
             "Shared",
-            "SharedModels"
-        ]),
-        .target(name: "AvatarRepository", dependencies: [
-            .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
-            "Shared",
-            "SharedModels",
-            "ImageUploader"
-        ]),
-        // Standalone Components
-        .target(name: "ImageGenerator", dependencies: [
-            .product(name: "OpenAI", package: "OpenAI")
-        ]),
-        .target(name: "ImageUploader", dependencies: [
-            .product(name: "FirebaseStorage", package: "firebase-ios-sdk")
+            .product(name: "SDWebImageSwiftUI", package: "SDWebImageSwiftUI")
         ])
+//        .testTarget(name: "AppFeatureTests", dependencies: []),
     ]
 )
 

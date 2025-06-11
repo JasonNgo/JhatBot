@@ -8,8 +8,8 @@
 import Shared
 import SharedModels
 import AuthenticationFeature
-import AuthService
-import UserFeature
+import AuthStore
+import UserStore
 import AvatarRepository
 import ImageGenerator
 import ImageUploader
@@ -40,8 +40,8 @@ public struct Dependencies {
     public let imageGenerator: ImageGenerator
     public let imageUploader: ImageUploader
 
-    public let authManager: AuthManager
-    public let userManager: UserManager
+    public let authStore: AuthStore
+    public let userStore: UserStore
     public let avatarRepository: AvatarRepository
 
     public init(
@@ -50,8 +50,8 @@ public struct Dependencies {
         self.imageGenerator = ImageGenerator(service: .mock)
         self.imageUploader = ImageUploader(service: .mock)
 
-        self.authManager = AuthManager(service: .firebase)
-        self.userManager = UserManager(service: .firestore, local: .fileManager)
+        self.authStore = AuthStore(service: .firebase)
+        self.userStore = UserStore(service: .firestore, local: .fileManager)
         self.avatarRepository = AvatarRepository(service: .mock, imageUploader: imageUploader)
     }
 }

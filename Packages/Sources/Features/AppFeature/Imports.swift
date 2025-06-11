@@ -5,5 +5,5 @@
 //  Created by Jason Ngo on 2025-05-08.
 //
 
-@_exported import AuthService
-@_exported import UserFeature
+@_exported import AuthStore
+@_exported import UserStore

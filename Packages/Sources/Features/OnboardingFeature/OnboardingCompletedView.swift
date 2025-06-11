@@ -7,7 +7,7 @@
 
 import Shared
 import SharedModels
-import UserFeature
+import UserStore
 import SwiftUI
 
 public struct OnboardingCompletedView: View {
@@ -15,7 +15,7 @@ public struct OnboardingCompletedView: View {
     // MARK: - Properties
 
     @Environment(AppState.self) private var appState
-    @Environment(UserManager.self) private var userManager
+    @Environment(UserStore.self) private var userStore
     @State private var isLoading = false
 
     // MARK: - Dependencies
@@ -69,7 +69,7 @@ public struct OnboardingCompletedView: View {
 
         Task {
             let profileColorHex = selectedColor.asHex()
-            try await userManager.updateOnboardingStatusForCurrentUser(profileColorHex: profileColorHex)
+            try await userStore.updateOnboardingStatusForCurrentUser(profileColorHex: profileColorHex)
 
             isLoading = false
             appState.updateAuthenticationState(true)

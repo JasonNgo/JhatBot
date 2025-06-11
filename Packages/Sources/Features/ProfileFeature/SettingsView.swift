@@ -5,13 +5,13 @@
 //  Created by Jason Ngo on 2025-04-24.
 //
 
-import SwiftUI
 import Shared
 import SharedModels
 import SharedViews
-import AuthService
+import AuthStore
+import UserStore
 import RegistrationFeature
-import UserFeature
+import SwiftUI
 
 public struct SettingsView: View {
 
@@ -19,8 +19,8 @@ public struct SettingsView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(AppState.self) private var appState
-    @Environment(AuthManager.self) private var authManager
-    @Environment(UserManager.self) private var userManager
+    @Environment(AuthStore.self) private var authStore
+    @Environment(UserStore.self) private var userStore
 
     @State private var isPremium = false
     @State private var isAnonymousUser = false
@@ -156,8 +156,8 @@ public struct SettingsView: View {
     private func onSignOutButtonTapped() {
         Task {
             do {
-                try await authManager.signOut()
-                userManager.logout()
+                try await authStore.signOut()
+                userStore.logout()
                 await dismissScreen()
             } catch {
                 showAlert = AppAlert(error: error)
@@ -184,8 +184,8 @@ public struct SettingsView: View {
     private func onDeleteAccountConfirmed() {
         Task {
             do {
-                try await authManager.deleteAccount()
-                try await userManager.deleteCurrentUser()
+                try await authStore.deleteAccount()
+                try await userStore.deleteCurrentUser()
                 await dismissScreen()
             } catch {
                 showAlert = AppAlert(error: error)
@@ -200,7 +200,7 @@ public struct SettingsView: View {
     }
 
     private func setAnonymousAuthStatus() {
-        self.isAnonymousUser = authManager.auth?.isAnonymous == true
+        self.isAnonymousUser = authStore.auth?.isAnonymous == true
     }
 
 }
@@ -220,13 +220,13 @@ fileprivate extension View {
 #Preview("Anonymous") {
     SettingsView()
         .environment(AppState())
-        .environment(AuthManager(service: .mockWithAnonymousUser))
-        .environment(UserManager(service: .mock(user: .mock), local: .fileManager))
+        .environment(AuthStore(service: .mockWithAnonymousUser))
+        .environment(UserStore(service: .mock(user: .mock), local: .fileManager))
 }
 
 #Preview("Not Anonymous") {
     SettingsView()
         .environment(AppState())
-        .environment(AuthManager(service: .mockWithUser))
-        .environment(UserManager(service: .mock(user: .mock), local: .fileManager))
+        .environment(AuthStore(service: .mockWithUser))
+        .environment(UserStore(service: .mock(user: .mock), local: .fileManager))
 }

@@ -8,16 +8,16 @@
 import Shared
 import SharedModels
 import AuthenticationFeature
-import AuthService
-import UserFeature
+import AuthStore
+import UserStore
 import SwiftUI
 
 public struct AppView: View {
 
     // MARK: - Properties
 
-    @Environment(AuthManager.self) private var authManager
-    @Environment(UserManager.self) private var userManager
+    @Environment(AuthStore.self) private var authStore
+    @Environment(UserStore.self) private var userStore
     @State private var appState: AppState
 
     // MARK: - Body
@@ -54,20 +54,20 @@ public struct AppView: View {
     // MARK: - Actions
 
     private func checkUserStatus() async {
-        if let user = authManager.auth {
+        if let user = authStore.auth {
             print("User already authenticated. User ID: \(user.uid)")
 
             do {
-                try await userManager.login(auth: user, isNewUser: false)
+                try await userStore.login(auth: user, isNewUser: false)
             } catch {
                 print("Failed to log in to auth for existing user: \(error)")
             }
         } else {
             do {
-                let result = try await authManager.signInAnonymously()
+                let result = try await authStore.signInAnonymously()
                 print("Sign in anonymously successful. User ID: \(result.user.uid)")
 
-                try await userManager.login(auth: result.user, isNewUser: result.isNewUser)
+                try await userStore.login(auth: result.user, isNewUser: result.isNewUser)
             } catch {
                 print(error)
             }

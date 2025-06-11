@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  Main
-//
-//  Created by Jason Ngo on 2025-05-22.
-//
-
 import Shared
 import SharedModels
 import Foundation
@@ -12,7 +5,7 @@ import Observation
 
 @MainActor
 @Observable
-public class UserManager {
+public class UserStore {
 
     // MARK: - Properties
 
@@ -26,7 +19,7 @@ public class UserManager {
     private var currentUserId: String {
         get throws {
             guard let userId = currentUser?.userId else {
-                throw UserManagerError.noUserId
+                throw UserStoreError.noUserId
             }
 
             return userId

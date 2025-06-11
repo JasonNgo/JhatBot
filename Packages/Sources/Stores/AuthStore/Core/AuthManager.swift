@@ -1,17 +1,11 @@
-//
-//  File.swift
-//  Main
-//
-//  Created by Jason Ngo on 2025-05-20.
-//
-
 import SharedModels
+
 import Foundation
 import Observation
 
 @MainActor
 @Observable
-public class AuthManager {
+public class AuthStore {
 
     // MARK: - Properties
 
@@ -43,7 +37,7 @@ public class AuthManager {
 
     public func getAuthId() throws -> String {
         guard let id = auth?.uid else {
-            throw AuthManagerError.notSignedIn
+            throw AuthStoreError.notSignedIn
         }
 
         return id
